@@ -1,0 +1,74 @@
+---
+import { site } from '~/config';
+import Header from '~/components/Header.astro';
+import Footer from '~/components/Footer.astro';
+import { withBase } from '~/lib/url';
+import '~/styles/global.css';
+
+interface Props {
+  /** Page title. Appended to the site name, except on the home page. */
+  title?: string;
+  description?: string;
+  /** Absolute or site-relative URL of the image used in link previews. */
+  image?: string;
+  /** Set on article pages so link previews are typed correctly. */
+  type?: 'website' | 'article';
+}
+
+const {
+  title,
+  description = site.description,
+  image,
+  type = 'website',
+} = Astro.props;
+
+const pageTitle = title ? `${title} · ${site.name}` : `${site.name} — ${site.tagline}`;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url);
+const previewImage = image ? new URL(image, Astro.site ?? site.url) : undefined;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
+    <link rel="icon" href={withBase('/favicon.ico')} sizes="32x32" />
+
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={`${site.name} — newsletters`}
+      href={withBase('/rss.xml')}
+    />
+
+    {/* Link previews for texts, iMessage, Facebook, WhatsApp, etc. */}
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={title ?? site.name} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={site.name} />
+    {previewImage && <meta property="og:image" content={previewImage} />}
+    <meta
+      name="twitter:card"
+      content={previewImage ? 'summary_large_image' : 'summary'}
+    />
+
+    <meta name="generator" content={Astro.generator} />
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header />
+    <main id="main">
+      <div class="wrap">
+        <slot />
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>

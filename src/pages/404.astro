@@ -1,0 +1,17 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import { withBase } from '~/lib/url';
+---
+
+<BaseLayout title="Page not found">
+  <div class="article">
+    <h1>Page not found</h1>
+    <p style="color: var(--text-soft)">
+      That link may be out of date. All of the updates are collected on the newsletters
+      page.
+    </p>
+    <p style="margin-top: 1.75rem">
+      <a class="btn" href={withBase('/newsletters')}>Browse newsletters</a>
+    </p>
+  </div>
+</BaseLayout>

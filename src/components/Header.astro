@@ -1,0 +1,37 @@
+---
+import { site, nav } from '~/config';
+import { withBase } from '~/lib/url';
+
+// Compared without the base path, so the logic is the same whether the site is
+// served from a domain root or a subfolder.
+const base = import.meta.env.BASE_URL.replace(/\/+$/, '');
+const path = Astro.url.pathname.slice(base.length) || '/';
+
+/** Highlights "Newsletters" while you are reading an individual issue too. */
+function isCurrent(href: string) {
+  if (href === '/') return path === '/' || path === '';
+  return path === href || path.startsWith(`${href}/`);
+}
+---
+
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand" href={withBase('/')}>
+      <span class="brand__name">{site.name}</span>
+      <span class="brand__tagline">{site.tagline}</span>
+    </a>
+
+    <nav class="site-nav" aria-label="Main">
+      {
+        nav.map((item) => (
+          <a
+            href={withBase(item.href)}
+            aria-current={isCurrent(item.href) ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>

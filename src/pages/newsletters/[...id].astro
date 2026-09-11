@@ -1,0 +1,80 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import { getPublishedNewsletters, formatDate } from '~/lib/newsletters';
+import { withBase } from '~/lib/url';
+
+export const getStaticPaths = (async () => {
+  const entries = await getPublishedNewsletters();
+
+  // Entries are newest first, so the "previous" issue is the next one along.
+  return entries.map((entry, index) => ({
+    params: { id: entry.id },
+    props: {
+      entry,
+      newer: entries[index - 1],
+      older: entries[index + 1],
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+const { entry, newer, older } = Astro.props;
+const { title, date, summary, cover, coverAlt, tags } = entry.data;
+const { Content } = await render(entry);
+---
+
+<BaseLayout title={title} description={summary} image={cover?.src} type="article">
+  <article class="article">
+    <header class="article__header">
+      <p class="article__date">{formatDate(date)}</p>
+      <h1>{title}</h1>
+      <p class="article__summary">{summary}</p>
+
+      {
+        tags.length > 0 && (
+          <ul class="tags">
+            {tags.map((tag) => (
+              <li class="tag">{tag}</li>
+            ))}
+          </ul>
+        )
+      }
+    </header>
+
+    {
+      cover && (
+        <figure class="article__cover">
+          <Image src={cover} alt={coverAlt ?? ''} widths={[600, 900, 1200]} loading="eager" />
+        </figure>
+      )
+    }
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    {
+      (newer || older) && (
+        <nav class="issue-nav" aria-label="More newsletters">
+          {older ? (
+            <a href={withBase(`/newsletters/${older.id}`)}>
+              <span class="issue-nav__label">Previous issue</span>
+              <span class="issue-nav__title">{older.data.title}</span>
+            </a>
+          ) : (
+            <span />
+          )}
+
+          {newer && (
+            <a class="issue-nav__next" href={withBase(`/newsletters/${newer.id}`)}>
+              <span class="issue-nav__label">Next issue</span>
+              <span class="issue-nav__title">{newer.data.title}</span>
+            </a>
+          )}
+        </nav>
+      )
+    }
+  </article>
+</BaseLayout>

@@ -1,0 +1,29 @@
+---
+import { Image } from 'astro:assets';
+import { formatDate, type Newsletter } from '~/lib/newsletters';
+import { withBase } from '~/lib/url';
+
+interface Props {
+  entry: Newsletter;
+}
+
+const { entry } = Astro.props;
+const { title, date, summary, cover, coverAlt } = entry.data;
+const href = withBase(`/newsletters/${entry.id}`);
+---
+
+<li class="card">
+  {
+    cover && (
+      <div class="card__media">
+        <Image src={cover} alt={coverAlt ?? ''} widths={[400, 800]} loading="lazy" />
+      </div>
+    )
+  }
+
+  <div class="card__body">
+    <p class="card__date">{formatDate(date)}</p>
+    <h3 class="card__title"><a href={href}>{title}</a></h3>
+    <p class="card__summary">{summary}</p>
+  </div>
+</li>

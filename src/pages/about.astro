@@ -1,0 +1,52 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import { site } from '~/config';
+import { withBase } from '~/lib/url';
+---
+
+<BaseLayout title="About" description={`About ${site.name} and this ministry.`}>
+  <article class="article">
+    <header class="article__header">
+      <h1>About</h1>
+      <p class="article__summary">
+        A little about who we are and what God has called us to.
+      </p>
+    </header>
+
+    <div class="prose">
+      <!-- Replace everything below with your own story. -->
+      <p>
+        Hi, and thank you for stopping by. This page is where you can share your story —
+        who you are, where you serve, and what God is doing through this ministry.
+      </p>
+
+      <h2>Our calling</h2>
+      <p>
+        Write a few paragraphs about how you came to this work, the community you serve,
+        and the vision you are praying toward.
+      </p>
+
+      <h2>How to pray</h2>
+      <p>
+        List the things you would most like your partners praying over. This section tends
+        to be the one people come back to.
+      </p>
+
+      <h2>Staying in touch</h2>
+      <p>
+        New updates are posted on the
+        <a href={withBase('/newsletters')}>newsletters page</a>. Feel
+        free to bookmark it or share the link with anyone who wants to follow along.
+      </p>
+
+      {
+        site.contact.email && (
+          <p>
+            You can also reach us directly at{' '}
+            <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>.
+          </p>
+        )
+      }
+    </div>
+  </article>
+</BaseLayout>

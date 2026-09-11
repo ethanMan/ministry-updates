@@ -1,0 +1,20 @@
+---
+import { site } from '~/config';
+import { withBase } from '~/lib/url';
+
+const { email, instagram, facebook } = site.contact;
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="wrap site-footer__inner">
+    <p style="margin:0">© {year} {site.name}</p>
+
+    <div class="footer-links">
+      {email && <a href={`mailto:${email}`}>Email</a>}
+      {instagram && <a href={instagram} rel="me noopener">Instagram</a>}
+      {facebook && <a href={facebook} rel="me noopener">Facebook</a>}
+      <a href={withBase('/rss.xml')}>RSS</a>
+    </div>
+  </div>
+</footer>
