@@ -24,7 +24,7 @@ export const site = {
    *   Cloudflare    ->  'https://ministry-website.pages.dev'
    *   Own domain    ->  'https://yourministry.org'
    */
-  url: 'https://YOUR-USERNAME.github.io',
+  url: 'https://ethanman.github.io',
 
   /**
    * The subfolder the site is served from. Almost always '/'.
