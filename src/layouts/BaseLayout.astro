@@ -13,6 +13,11 @@ interface Props {
   image?: string;
   /** Set on article pages so link previews are typed correctly. */
   type?: 'website' | 'article';
+  /**
+   * Removes the space above the content, for pages that open with a full-width
+   * banner that should sit flush against the header.
+   */
+  flush?: boolean;
 }
 
 const {
@@ -20,6 +25,7 @@ const {
   description = site.description,
   image,
   type = 'website',
+  flush = false,
 } = Astro.props;
 
 const pageTitle = title ? `${title} · ${site.name}` : `${site.name} — ${site.tagline}`;
@@ -65,7 +71,10 @@ const previewImage = image ? new URL(image, Astro.site ?? site.url) : undefined;
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <Header />
-    <main id="main">
+    <main id="main" class={flush ? 'main--flush' : undefined}>
+      {/* Anything in this slot spans the full window width, outside the
+          centred column — used for the home page banner. */}
+      <slot name="full-width" />
       <div class="wrap">
         <slot />
       </div>

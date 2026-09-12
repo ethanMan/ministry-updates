@@ -20,41 +20,46 @@ const bannerFiles = import.meta.glob<{ default: ImageMetadata }>(
 const banner = Object.values(bannerFiles)[0]?.default;
 ---
 
-<BaseLayout image={banner?.src}>
-  {
-    banner && (
-      <figure class="banner">
-        <Image
-          src={banner}
-          alt={site.bannerAlt}
-          widths={[640, 960, 1400, 2000]}
-          sizes="(max-width: 1120px) 100vw, 1040px"
-          loading="eager"
-        />
-        {site.bannerCaption && <figcaption>{site.bannerCaption}</figcaption>}
-      </figure>
-    )
-  }
+<BaseLayout image={banner?.src} flush={Boolean(banner)}>
+  <section class:list={['hero', banner && 'hero--banner']} slot="full-width">
+    {
+      banner && (
+        <>
+          <Image
+            class="hero__image"
+            src={banner}
+            alt={site.bannerAlt}
+            width={1600}
+            widths={[640, 960, 1280, 1600, 2000, 2400]}
+            sizes="100vw"
+            loading="eager"
+          />
+          {/* Fades the photo into the page colour so the words stay readable. */}
+          <div class="hero__scrim" />
+        </>
+      )
+    }
 
-  <section class="hero">
-    <h1>{site.tagline}</h1>
-    <p>{site.description}</p>
+    <div class="hero__content">
+      <h1>{site.tagline}</h1>
+      <p>{site.description}</p>
 
-    <div class="hero__actions">
-      {
-        latest && (
-          <a class="btn" href={withBase(`/newsletters/${latest.id}`)}>
-            Read the latest update
-          </a>
-        )
-      }
-      {
-        all.length > 1 && (
-          <a class="btn btn--ghost" href={withBase('/newsletters')}>
-            Browse all newsletters
-          </a>
-        )
-      }
+      <div class="hero__actions">
+        {
+          latest && (
+            <a class="btn" href={withBase(`/newsletters/${latest.id}`)}>
+              Read the latest update
+            </a>
+          )
+        }
+        {
+          all.length > 1 && (
+            <a class="btn btn--ghost" href={withBase('/newsletters')}>
+              Browse all newsletters
+            </a>
+          )
+        }
+      </div>
     </div>
   </section>
 

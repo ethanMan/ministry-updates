@@ -56,15 +56,16 @@ export const site = {
   givingLabelShort: 'Give',
 
   /**
-   * The wide photo at the top of the home page.
+   * The full-width photo at the top of the home page, which the headline and
+   * buttons sit on top of.
    *
    * To use your own, replace src/assets/home-banner.jpg with your photo
    * (keep the filename, or use .png/.webp — either is picked up automatically)
-   * and update the description below. Delete the file to hide the banner.
+   * and update the description below. Delete the file and the home page falls
+   * back to plain text. A wide landscape photo works best, and one with some
+   * open space along the bottom leaves room for the words.
    */
   bannerAlt: 'Our team on the steps of the community center',
-  /** Optional line printed under the banner. Leave empty to hide it. */
-  bannerCaption: '',
 } as const;
 
 /** Top navigation links. */
