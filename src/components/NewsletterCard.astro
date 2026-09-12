@@ -16,7 +16,16 @@ const href = withBase(`/newsletters/${entry.id}`);
   {
     cover && (
       <div class="card__media">
-        <Image src={cover} alt={coverAlt ?? ''} widths={[400, 800]} loading="lazy" />
+        {/* Cards are ~360px wide on desktop and full width on a phone; the
+            larger widths are what keep them sharp on 2x screens. */}
+        <Image
+          src={cover}
+          alt={coverAlt ?? ''}
+          width={720}
+          widths={[360, 520, 720, 1080]}
+          sizes="(max-width: 760px) calc(100vw - 2.5rem), 360px"
+          loading="lazy"
+        />
       </div>
     )
   }

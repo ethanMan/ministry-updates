@@ -2,7 +2,7 @@
 title: 'Fall Update: New Rhythms, New Faces'
 date: 2026-09-01
 summary: 'The summer team has gone home, the school year has started, and we are settling into a new rhythm. Here is what God has been doing.'
-cover: './sample-cover.jpg'
+cover: './2026-09.jpg'
 coverAlt: 'The summer team gathered on the steps of the community center'
 tags: ['update', 'prayer']
 draft: false

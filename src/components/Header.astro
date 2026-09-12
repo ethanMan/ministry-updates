@@ -32,6 +32,19 @@ function isCurrent(href: string) {
           </a>
         ))
       }
+
+      {
+        site.givingUrl && (
+          <a
+            class="btn btn--sm site-nav__give"
+            href={site.givingUrl}
+            rel="noopener"
+            aria-label={site.givingLabel}
+          >
+            {site.givingLabelShort}
+          </a>
+        )
+      }
     </nav>
   </div>
 </header>

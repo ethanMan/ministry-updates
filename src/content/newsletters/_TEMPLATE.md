@@ -26,6 +26,18 @@ Put the image file in this same folder, then reference it by filename:
 
 ![A short description of the photo for screen readers](./my-photo.jpg)
 
+Photos are shown wider than the text, so they have room to breathe.
+
+To put several photos side by side, wrap them in a gallery. Keep the blank lines
+above and below the images — they are what makes it work:
+
+<div class="gallery">
+
+![First photo](./my-photo.jpg)
+![Second photo](./my-other-photo.jpg)
+
+</div>
+
 To add a cover photo at the top of the issue, add these two lines to the block at the
 very top of this file:
 

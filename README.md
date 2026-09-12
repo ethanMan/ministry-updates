@@ -72,6 +72,29 @@ Photos straight off a phone are fine — the build automatically resizes them, c
 them to modern formats, and serves the right size for each visitor's screen. Always
 write a short description in the square brackets for anyone using a screen reader.
 
+Photos are given more room than the text: they sit wider than the reading column so the
+faces in them are easy to see.
+
+To put several photos side by side, wrap them in a gallery. The blank lines around the
+images matter:
+
+```markdown
+<div class="gallery">
+
+![Kids at the day camp](./day-camp.jpg)
+![The new roof](./roof.jpg)
+![Tuesday night dinner](./dinner.jpg)
+
+</div>
+```
+
+### The home page banner
+
+The wide photo at the top of the home page is `src/assets/home-banner.jpg`. Replace that
+file with your own photo — keep the name, or use a `.png`/`.webp` instead — and update
+`bannerAlt` in `src/config.ts` to describe it. A landscape photo works best; something
+around 2000px wide is plenty. Delete the file and the banner disappears.
+
 ### Drafts
 
 Set `draft: true` while an issue is in progress. It shows up in `npm run dev` on your
@@ -82,16 +105,20 @@ own computer but stays off the live site until you flip it to `false`.
 ## Making it yours
 
 Nearly everything personal lives in one file: **`src/config.ts`**. Open it to set your
-name, tagline, description, contact links, an optional giving link, and the `url` /
-`base` pair that tells the site what address it lives at.
+name, tagline, description, contact links, the giving link, the banner description, and
+the `url` / `base` pair that tells the site what address it lives at.
+
+`givingUrl` drives both the **Give** button in the top right of the header and the
+invitation at the bottom of the home page. Empty it out to remove both.
 
 A few other spots:
 
+- **`src/assets/home-banner.jpg`** — the wide photo at the top of the home page.
 - **`src/pages/about.astro`** — the About page. Replace the placeholder text with your
   own story.
 - **`src/styles/global.css`** — the look of the site. The block of settings at the very
   top controls colors and fonts everywhere; changing `--accent` alone re-themes the site.
-  Dark mode is handled automatically and follows the visitor's device setting.
+  `--measure-wide` controls how far photos spread past the text column.
 - **`public/favicon.svg`** — the little icon in the browser tab.
 
 Delete the two sample newsletters and `sample-cover.jpg` whenever you are ready. Keep
@@ -197,7 +224,8 @@ You can run both hosts at once off the same repository, but they cannot use diff
 - **Sitemap** for Google
 - **Link previews** — sharing an issue by text or Facebook shows the title, summary, and
   cover photo
-- **Automatic image optimization**, dark mode, and a keyboard-accessible layout
+- **Automatic image optimization**, a wide banner and gallery layout, and a
+  keyboard-accessible design
 
 ## Costs
 

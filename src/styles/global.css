@@ -4,52 +4,44 @@
    --------------------------------------------------------------------------- */
 
 :root {
-  /* Warm paper background with deep ink text. */
-  --bg: #fbf8f3;
+  /* Warm cream paper, with pure-white cards lifted off of it. */
+  --bg: #fdfcf8;
   --bg-raised: #ffffff;
-  --bg-sunken: #f3ede3;
-  --text: #1f1b16;
-  --text-soft: #5d564c;
-  --text-faint: #8a8276;
-  --border: #e3dbcd;
+  --bg-sunken: #f2f5f0;
+  --text: #222a24;
+  --text-soft: #5b6560;
+  --text-faint: #8b938c;
+  --border: #e6e9e1;
 
-  /* Accent — a warm clay. Swap this one value to rebrand the site. */
-  --accent: #a6552f;
-  --accent-hover: #8a4426;
-  --accent-soft: #f6ebe2;
+  /* Accent — a gentle sage green. Swap this one value to rebrand the site. */
+  --accent: #2f7d5f;
+  --accent-hover: #256349;
+  --accent-soft: #eaf3ee;
 
-  --radius: 12px;
-  --radius-lg: 18px;
-  --shadow: 0 1px 2px rgb(31 27 22 / 0.04), 0 6px 20px rgb(31 27 22 / 0.06);
+  /* A second, honey-warm tone used sparingly for gentle background washes. */
+  --accent-warm: #faf2e4;
 
-  --font-body: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+  --radius: 14px;
+  --radius-lg: 22px;
+  --shadow-sm: 0 1px 2px rgb(34 42 36 / 0.04);
+  --shadow: 0 1px 2px rgb(34 42 36 / 0.04), 0 10px 28px rgb(34 42 36 / 0.07);
+  --shadow-lg: 0 2px 4px rgb(34 42 36 / 0.05), 0 18px 40px rgb(47 125 95 / 0.12);
+
+  --font-body:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
     'Helvetica Neue', Arial, sans-serif;
-  --font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia,
-    'Times New Roman', serif;
+  /* Headings use the same clean sans as the body — set apart by weight and
+     tracking rather than by a contrasting serif. */
+  --font-display: var(--font-body);
 
   /* Max width of readable text. ~68 characters per line. */
   --measure: 68ch;
   --page-max: 1080px;
+  /* How wide photos are allowed to grow — wider than the text they sit in. */
+  --measure-wide: 880px;
 
-  color-scheme: light dark;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #16130f;
-    --bg-raised: #1f1b16;
-    --bg-sunken: #110e0b;
-    --text: #f4efe7;
-    --text-soft: #c4bcaf;
-    --text-faint: #948b7d;
-    --border: #332c24;
-
-    --accent: #e08a5c;
-    --accent-hover: #f0a077;
-    --accent-soft: #2a211a;
-
-    --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 6px 20px rgb(0 0 0 / 0.35);
-  }
+  /* The site is intentionally light-only: no dark theme. */
+  color-scheme: light;
 }
 
 /* ---------------------------------------------------------------------------
@@ -82,6 +74,19 @@ html {
 body {
   margin: 0;
   background: var(--bg);
+  /* A soft sage-and-honey wash behind the top of every page. */
+  background-image:
+    radial-gradient(
+      55rem 28rem at 18% -10rem,
+      rgb(47 125 95 / 0.1),
+      transparent 70%
+    ),
+    radial-gradient(
+      50rem 26rem at 88% -12rem,
+      rgb(214 168 82 / 0.14),
+      transparent 70%
+    );
+  background-repeat: no-repeat;
   color: var(--text);
   font-family: var(--font-body);
   font-size: 1.0625rem;
@@ -97,21 +102,22 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display);
-  font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: -0.01em;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
   margin: 0 0 0.5em;
   text-wrap: balance;
 }
 
 h1 {
-  font-size: clamp(2rem, 1.4rem + 2.6vw, 3rem);
+  font-size: clamp(2.1rem, 1.4rem + 2.8vw, 3.1rem);
 }
 h2 {
   font-size: clamp(1.4rem, 1.2rem + 1vw, 1.8rem);
 }
 h3 {
   font-size: 1.25rem;
+  letter-spacing: -0.01em;
 }
 
 p {
@@ -189,8 +195,8 @@ main {
 
 .site-header {
   border-bottom: 1px solid var(--border);
-  background: color-mix(in srgb, var(--bg) 85%, transparent);
-  backdrop-filter: blur(8px);
+  background: rgb(253 252 248 / 0.85);
+  backdrop-filter: blur(10px) saturate(1.4);
   position: sticky;
   top: 0;
   z-index: 50;
@@ -215,7 +221,8 @@ main {
   display: block;
   font-family: var(--font-display);
   font-size: 1.3rem;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: -0.02em;
   line-height: 1.25;
 }
 
@@ -242,14 +249,36 @@ main {
   font-size: 0.9375rem;
 }
 
+.site-nav a {
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
 .site-nav a:hover {
   background: var(--bg-sunken);
   color: var(--text);
 }
 
+/* The giving button lives in the nav, so it needs to out-specify `.site-nav a`. */
+.site-nav a.site-nav__give,
+.site-nav a.site-nav__give:hover {
+  color: #fff;
+  margin-left: 0.4rem;
+}
+
+.site-nav a.site-nav__give {
+  background: var(--accent);
+}
+
+.site-nav a.site-nav__give:hover {
+  background: var(--accent-hover);
+}
+
 .site-nav a[aria-current='page'] {
-  color: var(--text);
-  background: var(--bg-sunken);
+  /* The darker shade keeps small bold text readable on the soft green fill. */
+  color: var(--accent-hover);
+  background: var(--accent-soft);
   font-weight: 600;
 }
 
@@ -266,26 +295,76 @@ main {
   text-decoration: none;
   font-size: 0.9375rem;
   font-weight: 600;
-  padding: 0.55rem 1.1rem;
+  padding: 0.62rem 1.25rem;
   border-radius: 999px;
   border: 1px solid transparent;
-  transition: background-color 0.15s ease;
+  box-shadow: 0 1px 2px rgb(47 125 95 / 0.2), 0 6px 16px rgb(47 125 95 / 0.18);
+  transition:
+    background-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
 }
 
 .btn:hover {
   background: var(--accent-hover);
   color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgb(47 125 95 / 0.22), 0 10px 22px rgb(47 125 95 / 0.22);
+}
+
+/* Compact variant, used for the giving button in the header. */
+.btn--sm {
+  font-size: 0.875rem;
+  padding: 0.45rem 1.05rem;
 }
 
 .btn--ghost {
-  background: transparent;
+  background: #fff;
   color: var(--text);
   border-color: var(--border);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn--ghost:hover {
+  background: #fff;
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  box-shadow: var(--shadow);
+}
+
+/* ---------------------------------------------------------------------------
+   Banner photo (home page)
+   --------------------------------------------------------------------------- */
+
+.banner {
+  margin: 0 0 clamp(2rem, 4.5vw, 3.25rem);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
   background: var(--bg-sunken);
-  color: var(--text);
+  box-shadow: var(--shadow);
+}
+
+.banner img {
+  width: 100%;
+  /* A wide letterbox on desktop, taller on phones so faces are not cropped out. */
+  aspect-ratio: 2.4;
+  object-fit: cover;
+  object-position: center;
+}
+
+@media (max-width: 700px) {
+  .banner img {
+    aspect-ratio: 16 / 10;
+  }
+}
+
+.banner figcaption {
+  background: var(--bg-raised);
+  border-top: 1px solid var(--border);
+  padding: 0.7rem 1rem;
+  font-size: 0.875rem;
+  color: var(--text-faint);
+  text-align: center;
 }
 
 /* ---------------------------------------------------------------------------
@@ -294,11 +373,12 @@ main {
 
 .hero {
   max-width: var(--measure);
-  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  margin-bottom: clamp(3rem, 6vw, 5rem);
 }
 
 .hero p {
-  font-size: 1.15rem;
+  font-size: 1.2rem;
+  line-height: 1.65;
   color: var(--text-soft);
 }
 
@@ -319,10 +399,21 @@ main {
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--text-faint);
-  margin-bottom: 1.25rem;
-  padding-bottom: 0.6rem;
-  border-bottom: 1px solid var(--border);
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0;
+  border-bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* A short rule trailing off to the right, instead of a full divider line. */
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, var(--border), transparent);
 }
 
 /* ---------------------------------------------------------------------------
@@ -331,8 +422,8 @@ main {
 
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 1.75rem;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -348,18 +439,22 @@ main {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  box-shadow: var(--shadow-sm);
   transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease;
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease;
 }
 
 .card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow);
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--accent) 25%, transparent);
+  box-shadow: var(--shadow-lg);
 }
 
 .card__media {
-  aspect-ratio: 16 / 9;
+  /* A little taller than widescreen, so phone photos keep more of the frame. */
+  aspect-ratio: 3 / 2;
   background: var(--bg-sunken);
   overflow: hidden;
 }
@@ -371,18 +466,19 @@ main {
 }
 
 .card__body {
-  padding: 1.25rem;
+  padding: 1.4rem;
   display: flex;
   flex-direction: column;
   flex: 1;
 }
 
 .card__date {
-  font-size: 0.8125rem;
-  color: var(--text-faint);
-  letter-spacing: 0.04em;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.5rem;
 }
 
 .card__title {
@@ -428,12 +524,20 @@ main {
 
 .issue {
   position: relative;
-  padding: 1.25rem 0;
+  padding: 1.25rem 1rem;
+  margin-inline: -1rem;
+  border-radius: var(--radius);
   border-bottom: 1px solid var(--border);
   display: grid;
   grid-template-columns: 8.5rem 1fr;
   gap: 1.5rem;
   align-items: baseline;
+  transition: background-color 0.15s ease;
+}
+
+.issue:hover {
+  background: var(--bg-sunken);
+  border-bottom-color: transparent;
 }
 
 @media (max-width: 620px) {
@@ -444,16 +548,18 @@ main {
 }
 
 .issue__date {
-  font-size: 0.875rem;
-  color: var(--text-faint);
-  letter-spacing: 0.03em;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
 .issue__title {
   font-family: var(--font-display);
   font-size: 1.3rem;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: -0.015em;
   margin: 0 0 0.3rem;
 }
 
@@ -486,7 +592,7 @@ main {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text-faint);
-  margin: 2.5rem 0 0.5rem;
+  margin: 2.75rem 0 0.75rem;
 }
 
 /* ---------------------------------------------------------------------------
@@ -503,24 +609,51 @@ main {
 }
 
 .article__date {
-  font-size: 0.875rem;
-  color: var(--text-faint);
-  letter-spacing: 0.06em;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.09em;
   text-transform: uppercase;
   margin-bottom: 0.75rem;
 }
 
 .article__summary {
   font-size: 1.15rem;
+  line-height: 1.65;
   color: var(--text-soft);
   margin: 0;
 }
 
+/* ---------------------------------------------------------------------------
+   Photos inside an article.
+
+   Body text stays at a comfortable reading measure, but photos are allowed to
+   grow past it — centred on the column and capped at the viewport width.
+   --------------------------------------------------------------------------- */
+
+/* Containers take the full wide measure... */
+.article__cover,
+.prose figure,
+.gallery {
+  width: min(var(--measure-wide), 100vw - 2.5rem);
+  max-width: none;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+/* ...while a bare image grows only as far as its own resolution allows. */
+.prose p > img {
+  max-width: min(var(--measure-wide), 100vw - 2.5rem);
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
 .article__cover {
-  margin: 2.5rem 0;
+  margin-block: 2.5rem;
   border-radius: var(--radius-lg);
   overflow: hidden;
   background: var(--bg-sunken);
+  box-shadow: var(--shadow);
 }
 
 /* Long-form body copy inside a newsletter. */
@@ -543,14 +676,18 @@ main {
 .prose img {
   border-radius: var(--radius);
   margin-block: 2rem;
+  box-shadow: var(--shadow);
 }
 
 .prose blockquote {
   margin: 2rem 0;
-  padding: 0.25rem 0 0.25rem 1.5rem;
+  padding: 1.15rem 1.5rem;
+  background: var(--accent-soft);
+  border: 0;
   border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
   color: var(--text-soft);
-  font-style: italic;
+  font-style: normal;
 }
 
 .prose blockquote p:last-child {
@@ -585,6 +722,43 @@ main {
 }
 
 /* ---------------------------------------------------------------------------
+   Photo gallery — two or more photos side by side inside a newsletter.
+   See src/content/newsletters/_TEMPLATE.md for how to write one.
+   --------------------------------------------------------------------------- */
+
+.gallery,
+.gallery p {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+  gap: 0.9rem;
+}
+
+.gallery {
+  margin-block: 2rem;
+}
+
+/* Markdown wraps consecutive images in a paragraph, so the paragraph has to
+   become a grid too rather than a block in the middle of one. */
+.gallery p {
+  width: 100%;
+  margin: 0;
+  grid-column: 1 / -1;
+}
+
+.prose .gallery img,
+.prose .gallery p > img {
+  width: 100%;
+  max-width: none;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--radius);
+  margin: 0;
+  margin-left: 0;
+  transform: none;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ---------------------------------------------------------------------------
    Tags
    --------------------------------------------------------------------------- */
 
@@ -602,7 +776,7 @@ main {
   letter-spacing: 0.04em;
   text-transform: uppercase;
   font-weight: 600;
-  color: var(--accent);
+  color: var(--accent-hover);
   background: var(--accent-soft);
   padding: 0.25rem 0.65rem;
   border-radius: 999px;
@@ -634,10 +808,15 @@ main {
   border-radius: var(--radius);
   padding: 1rem 1.15rem;
   background: var(--bg-raised);
+  box-shadow: var(--shadow-sm);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .issue-nav a:hover {
-  border-color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  box-shadow: var(--shadow);
 }
 
 .issue-nav__label {
@@ -652,6 +831,7 @@ main {
 .issue-nav__title {
   font-family: var(--font-display);
   font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .issue-nav__next {
@@ -663,11 +843,11 @@ main {
    --------------------------------------------------------------------------- */
 
 .callout {
-  background: var(--accent-soft);
-  border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+  background: linear-gradient(140deg, var(--accent-soft), var(--accent-warm));
+  border: 1px solid color-mix(in srgb, var(--accent) 14%, transparent);
   border-radius: var(--radius-lg);
-  padding: 1.75rem;
-  margin-top: 3.5rem;
+  padding: 2rem;
+  margin-top: 4rem;
   max-width: var(--measure);
 }
 
@@ -690,8 +870,9 @@ main {
 
 .site-footer {
   border-top: 1px solid var(--border);
+  background: var(--bg-sunken);
   padding-block: 2.5rem;
-  margin-top: 4rem;
+  margin-top: 5rem;
   font-size: 0.9rem;
   color: var(--text-faint);
 }
@@ -723,7 +904,8 @@ main {
    --------------------------------------------------------------------------- */
 
 .empty {
-  border: 1px dashed var(--border);
+  border: 1px dashed color-mix(in srgb, var(--accent) 30%, var(--border));
+  background: var(--bg-sunken);
   border-radius: var(--radius-lg);
   padding: 2.5rem;
   text-align: center;

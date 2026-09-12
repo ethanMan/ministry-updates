@@ -46,11 +46,25 @@ export const site = {
   },
 
   /**
-   * Optional: a link to your giving/support page (Venmo, PayPal, your sending
-   * organization's donation page, etc). Leave empty to hide the button.
+   * A link to your giving/support page. Shown as the accented button in the
+   * top right of the header and again at the bottom of the home page.
+   * Leave empty to hide both.
    */
-  givingUrl: '',
+  givingUrl: 'https://app.aplos.com/aws/give/SoonMovementGlobal/EthanMan',
   givingLabel: 'Partner with us',
+  /** Shorter wording for the header button, where space is tight. */
+  givingLabelShort: 'Give',
+
+  /**
+   * The wide photo at the top of the home page.
+   *
+   * To use your own, replace src/assets/home-banner.jpg with your photo
+   * (keep the filename, or use .png/.webp — either is picked up automatically)
+   * and update the description below. Delete the file to hide the banner.
+   */
+  bannerAlt: 'Our team on the steps of the community center',
+  /** Optional line printed under the banner. Leave empty to hide it. */
+  bannerCaption: '',
 } as const;
 
 /** Top navigation links. */
