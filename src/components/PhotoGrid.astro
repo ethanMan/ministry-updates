@@ -12,7 +12,10 @@ interface Props {
 const { rows, maxWidth = 1080 } = Astro.props;
 
 /** The sizes Astro will generate. Anything larger than the photo is skipped. */
-const LADDER = [320, 480, 640, 800, 1024, 1280, 1600];
+const LADDER = [320, 480, 640, 800, 1024, 1280, 1600, 2000, 2400];
+
+// How hard these are compressed is set once, for the whole site, in
+// astro.config.mjs.
 
 /**
  * Work out, for every photo, how wide it will actually be drawn and which
@@ -46,10 +49,14 @@ const laidOut = await Promise.all(
         const widths = LADDER.filter((w) => w <= needed);
         if (widths.length === 0) widths.push(photo.image.width);
 
-        // The copy shown when a photo is opened full screen.
+        // The copy shown when a photo is opened full screen. This one is looked
+        // at closely, and on a retina screen the viewer is twice as many real
+        // pixels as it is wide on the page — so it gets as much of the original
+        // as there is, rather than a size that only holds up at 1x.
+        // It is fetched only when a photo is actually opened.
         const full = await getImage({
           src: photo.image,
-          width: Math.min(1800, photo.image.width),
+          width: Math.min(2400, photo.image.width),
         });
 
         return {

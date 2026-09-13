@@ -31,5 +31,26 @@ export default defineConfig({
   image: {
     // Photos from phones are huge; cap the widths we bother generating.
     responsiveStyles: true,
+
+    /**
+     * How hard photos are compressed on the way out. This is the one place to
+     * change it — it covers every photo on the site, including the ones written
+     * into updates with `![](...)`, which otherwise take a lower default.
+     *
+     * Sharp's own default is 80. That is tuned for files straight off a camera,
+     * and is visibly soft when it runs over a photo that has already been
+     * resized and saved once, which is the normal case here. 90 is the setting
+     * for photographs of people, where faces are the point.
+     *
+     * `effort: 6` spends longer looking for a smaller file at the same quality.
+     * It makes the first build of a photo slower and every later one free,
+     * because the result is cached in .astro-cache/.
+     */
+    service: {
+      entrypoint: 'astro/assets/services/sharp',
+      config: {
+        webp: { quality: 90, effort: 6 },
+      },
+    },
   },
 });
