@@ -13,6 +13,7 @@ export default defineConfig({
 
   integrations: [sitemap()],
 
+
   // Cloudflare Pages serves /about as /about/, so matching that here keeps
   // links consistent between local dev and the live site.
   trailingSlash: 'ignore',

@@ -1,0 +1,16 @@
+---
+import { site } from '~/config';
+
+// Rendered at the foot of the home page, the About page, and every update, so
+// the closing lives in one place rather than being typed into each letter.
+const { closing, signOff } = site;
+---
+
+{
+  (closing || signOff) && (
+    <p class="signature">
+      {closing && <span class="signature__line">{closing}</span>}
+      {signOff && <span class="signature__line">{signOff}</span>}
+    </p>
+  )
+}

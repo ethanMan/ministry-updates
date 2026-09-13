@@ -1,6 +1,6 @@
-# Ministry newsletter site
+# Ministry updates site
 
-A static website for publishing newsletter updates to ministry partners. Each newsletter
+A static website for publishing updates to ministry partners. Each update
 is a single markdown file; the home page, archive, RSS feed, and sitemap all build
 themselves from those files. Hosted free on GitHub Pages or Cloudflare Pages.
 
@@ -23,11 +23,11 @@ Leave `npm run dev` running while you write — the browser updates as you save.
 
 ---
 
-## Publishing a newsletter
+## Publishing an update
 
-1. **Copy the template.** Duplicate `src/content/newsletters/_TEMPLATE.md` and rename it
+1. **Copy the template.** Duplicate `src/content/updates/_TEMPLATE.md` and rename it
    to something like `2026-03-spring-update.md`. The filename becomes the web address
-   (`/newsletters/2026-03-spring-update`), so use lowercase words with dashes and no
+   (`/updates/2026-03-spring-update`), so use lowercase words with dashes and no
    spaces. Leading the name with the date keeps the folder tidy.
 
 2. **Fill in the top block.** The section between the `---` lines controls how the issue
@@ -61,7 +61,7 @@ Leave `npm run dev` running while you write — the browser updates as you save.
 
 ### Adding photos
 
-Drop the image file into `src/content/newsletters/` next to your markdown file, then
+Drop the image file into `src/content/updates/` next to your markdown file, then
 reference it by name:
 
 ```markdown
@@ -88,6 +88,25 @@ images matter:
 </div>
 ```
 
+### Prayer requests
+
+Wrapping a section in a prayer block sets it apart from the rest of the letter. The
+blank lines matter here too:
+
+```markdown
+<div class="prayer">
+
+### How to pray
+
+- For the new students arriving in January
+- For rest — it has been a long season
+
+</div>
+```
+
+Your sign-off is added to the foot of every update automatically, so there is no need to
+type it each time.
+
 ### The home page banner
 
 The wide photo at the top of the home page is `src/assets/home-banner.jpg`. Replace that
@@ -105,15 +124,18 @@ own computer but stays off the live site until you flip it to `false`.
 ## Making it yours
 
 Nearly everything personal lives in one file: **`src/config.ts`**. Open it to set your
-name, tagline, description, contact links, the giving link, the banner description, and
-the `url` / `base` pair that tells the site what address it lives at.
+name, tagline, description, the note in your own voice on the home page, your sign-off,
+contact links, the giving link, the banner description, and the `url` / `base` pair that
+tells the site what address it lives at.
 
-`givingUrl` drives both the **Give** button in the top right of the header and the
-invitation at the bottom of the home page. Empty it out to remove both.
+`givingUrl` drives the **Give** button in the top right of the header. Empty it out to
+remove giving from the site.
 
 A few other spots:
 
 - **`src/assets/home-banner.jpg`** — the wide photo at the top of the home page.
+- **`src/assets/portrait.jpg`** — the photo of you beside the note and on the About
+  page. Delete it to leave it out.
 - **`src/pages/about.astro`** — the About page. Replace the placeholder text with your
   own story.
 - **`src/styles/global.css`** — the look of the site. The block of settings at the very
@@ -121,7 +143,7 @@ A few other spots:
   `--measure-wide` controls how far photos spread past the text column.
 - **`public/favicon.svg`** — the little icon in the browser tab.
 
-Delete the two sample newsletters and `sample-cover.jpg` whenever you are ready. Keep
+Delete the two sample updates and `sample-cover.jpg` whenever you are ready. Keep
 `_TEMPLATE.md` — files starting with `_` are ignored by the build.
 
 ---
@@ -217,12 +239,12 @@ You can run both hosts at once off the same repository, but they cannot use diff
 
 ## What's included
 
-- **Home page** with the latest issues as cards
-- **Archive** at `/newsletters`, grouped by year
-- **Individual issue pages** with previous/next navigation
+- **Home page** with a note from you and the most recent updates
+- **Archive** at `/updates`, grouped by year
+- **Individual update pages** with previous/next navigation
 - **RSS feed** at `/rss.xml` for partners who use a reader
 - **Sitemap** for Google
-- **Link previews** — sharing an issue by text or Facebook shows the title, summary, and
+- **Link previews** — sharing an update by text or Facebook shows the title, summary, and
   cover photo
 - **Automatic image optimization**, a wide banner and gallery layout, and a
   keyboard-accessible design
@@ -231,5 +253,5 @@ You can run both hosts at once off the same repository, but they cannot use diff
 
 $0. GitHub Pages is free for public repositories with a soft limit of 100 GB of traffic a
 month; Cloudflare Pages' free tier allows 500 builds a month and unlimited visitors.
-Either is far beyond what a newsletter site uses. A custom domain is the only optional
+Either is far beyond what a site like this uses. A custom domain is the only optional
 cost.

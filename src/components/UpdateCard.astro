@@ -1,0 +1,36 @@
+---
+import { Image } from 'astro:assets';
+import { formatMonth, type Update } from '~/lib/updates';
+import { withBase } from '~/lib/url';
+
+interface Props {
+  entry: Update;
+}
+
+const { entry } = Astro.props;
+const { title, date, summary, cover, coverAlt } = entry.data;
+const href = withBase(`/updates/${entry.id}`);
+---
+
+<li class="entry">
+  <div>
+    <p class="entry__date">{formatMonth(date)}</p>
+    <h3 class="entry__title"><a href={href}>{title}</a></h3>
+    <p class="entry__summary">{summary}</p>
+  </div>
+
+  {
+    cover && (
+      <div class="entry__media">
+        <Image
+          src={cover}
+          alt={coverAlt ?? ''}
+          width={416}
+          widths={[208, 320, 416, 624]}
+          sizes="(max-width: 680px) calc(100vw - 2.5rem), 208px"
+          loading="lazy"
+        />
+      </div>
+    )
+  }
+</li>

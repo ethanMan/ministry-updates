@@ -27,11 +27,14 @@
   --shadow: 0 1px 2px rgb(34 42 36 / 0.04), 0 10px 28px rgb(34 42 36 / 0.07);
   --shadow-lg: 0 2px 4px rgb(34 42 36 / 0.05), 0 18px 40px rgb(47 125 95 / 0.12);
 
+  /* The site reads like a letter, so the words are set in a serif. The sans is
+     kept for the small functional bits only — navigation, dates, buttons. */
   --font-body:
+    'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia,
+    'Times New Roman', serif;
+  --font-ui:
     ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
     'Helvetica Neue', Arial, sans-serif;
-  /* Headings use the same clean sans as the body — set apart by weight and
-     tracking rather than by a contrasting serif. */
   --font-display: var(--font-body);
 
   /* Max width of readable text. ~68 characters per line. */
@@ -89,8 +92,10 @@ body {
   background-repeat: no-repeat;
   color: var(--text);
   font-family: var(--font-body);
-  font-size: 1.0625rem;
-  line-height: 1.7;
+  /* The serif runs small, so the body size is a little larger than a sans
+     would be, with more room between the lines. */
+  font-size: 1.15rem;
+  line-height: 1.72;
   -webkit-font-smoothing: antialiased;
   display: flex;
   flex-direction: column;
@@ -102,22 +107,21 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display);
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
   margin: 0 0 0.5em;
   text-wrap: balance;
 }
 
 h1 {
-  font-size: clamp(2.1rem, 1.4rem + 2.8vw, 3.1rem);
+  font-size: clamp(2rem, 1.4rem + 2.6vw, 2.9rem);
 }
 h2 {
-  font-size: clamp(1.4rem, 1.2rem + 1vw, 1.8rem);
+  font-size: clamp(1.35rem, 1.15rem + 1vw, 1.7rem);
 }
 h3 {
-  font-size: 1.25rem;
-  letter-spacing: -0.01em;
+  font-size: 1.2rem;
 }
 
 p {
@@ -225,51 +229,52 @@ main {
 .brand__name {
   display: block;
   font-family: var(--font-display);
-  font-size: 1.3rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-size: 1.4rem;
+  font-weight: 600;
   line-height: 1.25;
 }
 
 .brand__tagline {
   display: block;
+  font-family: var(--font-ui);
   font-size: 0.8125rem;
   line-height: 1.3;
   color: var(--text-faint);
-  letter-spacing: 0.02em;
 }
 
 .site-nav {
   display: flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 1.4rem;
   flex-wrap: wrap;
 }
 
 .site-nav a {
+  font-family: var(--font-ui);
   color: var(--text-soft);
   text-decoration: none;
-  padding: 0.4rem 0.75rem;
-  border-radius: 999px;
   font-size: 0.9375rem;
+  padding-block: 0.2rem;
+  border-bottom: 1px solid transparent;
 }
 
 .site-nav a {
   transition:
-    background-color 0.15s ease,
+    border-color 0.15s ease,
     color 0.15s ease;
 }
 
 .site-nav a:hover {
-  background: var(--bg-sunken);
   color: var(--text);
+  border-bottom-color: var(--border);
 }
 
 /* The giving button lives in the nav, so it needs to out-specify `.site-nav a`. */
 .site-nav a.site-nav__give,
 .site-nav a.site-nav__give:hover {
   color: #fff;
-  margin-left: 0.4rem;
+  border-bottom-color: transparent;
+  margin-left: 0.2rem;
 }
 
 .site-nav a.site-nav__give {
@@ -281,60 +286,61 @@ main {
 }
 
 .site-nav a[aria-current='page'] {
-  /* The darker shade keeps small bold text readable on the soft green fill. */
-  color: var(--accent-hover);
-  background: var(--accent-soft);
-  font-weight: 600;
+  color: var(--text);
+  border-bottom-color: var(--accent);
 }
 
 /* ---------------------------------------------------------------------------
    Buttons
    --------------------------------------------------------------------------- */
 
+/* The only real button on the site is the giving one. Everything else is a
+   link, which is what keeps the pages from reading like a product page. */
 .btn {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
+  font-family: var(--font-ui);
   background: var(--accent);
   color: #fff;
   text-decoration: none;
   font-size: 0.9375rem;
   font-weight: 600;
-  padding: 0.62rem 1.25rem;
+  padding: 0.55rem 1.2rem;
   border-radius: 999px;
   border: 1px solid transparent;
-  box-shadow: 0 1px 2px rgb(47 125 95 / 0.2), 0 6px 16px rgb(47 125 95 / 0.18);
-  transition:
-    background-color 0.15s ease,
-    box-shadow 0.15s ease,
-    transform 0.15s ease;
+  transition: background-color 0.15s ease;
 }
 
 .btn:hover {
   background: var(--accent-hover);
   color: #fff;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgb(47 125 95 / 0.22), 0 10px 22px rgb(47 125 95 / 0.22);
 }
 
 /* Compact variant, used for the giving button in the header. */
 .btn--sm {
   font-size: 0.875rem;
-  padding: 0.45rem 1.05rem;
+  padding: 0.42rem 1rem;
 }
 
-.btn--ghost {
-  background: #fff;
-  color: var(--text);
-  border-color: var(--border);
-  box-shadow: var(--shadow-sm);
-}
-
-.btn--ghost:hover {
-  background: #fff;
+/* A plain text link with an arrow, used where a button used to be. */
+.link-more {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
   color: var(--accent);
-  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
-  box-shadow: var(--shadow);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  padding-bottom: 1px;
+}
+
+.link-more:hover {
+  color: var(--accent-hover);
+  border-bottom-color: currentColor;
+}
+
+.link-more::after {
+  content: ' \2192';
 }
 
 /* ---------------------------------------------------------------------------
@@ -380,7 +386,7 @@ main {
   /* Photo, scrim and words all share one grid cell, stacked on top of
      each other, with the words pinned to the bottom. */
   align-items: end;
-  min-height: clamp(24rem, 60vh, 38rem);
+  min-height: clamp(26rem, 62vh, 40rem);
   overflow: hidden;
   isolation: isolate;
   margin-bottom: clamp(2.5rem, 5vw, 4rem);
@@ -403,29 +409,62 @@ main {
 
 .hero__image {
   object-fit: cover;
-  /* Biased above centre: faces usually sit in the top half of a group photo. */
-  object-position: center 32%;
+  /* Slightly above centre — where the subject of a group photo or a skyline
+     usually sits. Nudge this if your banner crops badly. */
+  object-position: center 38%;
 }
 
+/* The words sit on a soft wash anchored to the left, where they are, so the
+   photo itself stays untouched on the right instead of the whole lower half
+   being faded out. */
 .hero__scrim {
   background:
-    /* Keeps the sticky header legible where it overlaps the photo... */
-    linear-gradient(to bottom, rgb(253 252 248 / 0.7), transparent 20%),
-    /* ...and fades the lower half into the page so the words read cleanly. */
+    /* Keeps the sticky header legible where it overlaps the photo. */
+    linear-gradient(to bottom, rgb(253 252 248 / 0.62), transparent 15%),
+    /* The panel the words sit on. */
+    linear-gradient(
+      to right,
+      rgb(253 252 248 / 0.95) 0%,
+      rgb(253 252 248 / 0.9) 34%,
+      rgb(253 252 248 / 0.6) 52%,
+      rgb(253 252 248 / 0.16) 70%,
+      rgb(253 252 248 / 0) 84%
+    ),
+    /* A light touch along the bottom so the photo meets the page softly. */
     linear-gradient(
       to top,
-      rgb(253 252 248 / 0.97) 0%,
-      rgb(253 252 248 / 0.93) 32%,
-      rgb(253 252 248 / 0.55) 50%,
-      rgb(253 252 248 / 0.15) 68%,
-      rgb(253 252 248 / 0) 84%
+      rgb(253 252 248 / 0.55) 0%,
+      rgb(253 252 248 / 0.18) 14%,
+      transparent 34%
     );
+}
+
+/* Too narrow for a side panel — fade upward from the bottom instead. */
+@media (max-width: 760px) {
+  .hero__scrim {
+    background:
+      linear-gradient(to bottom, rgb(253 252 248 / 0.62), transparent 15%),
+      linear-gradient(
+        to top,
+        rgb(253 252 248 / 0.96) 0%,
+        rgb(253 252 248 / 0.9) 34%,
+        rgb(253 252 248 / 0.5) 56%,
+        rgb(253 252 248 / 0.12) 76%,
+        rgb(253 252 248 / 0) 90%
+      );
+  }
 }
 
 .hero--banner .hero__content {
   position: relative;
   padding-bottom: clamp(1.75rem, 4vw, 3rem);
   padding-top: clamp(3rem, 12vw, 7rem);
+}
+
+/* Shorter lines than body copy, so the words stay within the wash instead of
+   trailing off across the photo. */
+.hero--banner .hero__content > * {
+  max-width: min(34rem, 100%);
 }
 
 .hero--banner h1 {
@@ -440,122 +479,169 @@ main {
    Section headings
    --------------------------------------------------------------------------- */
 
+/* Sentence case, not the letterspaced capitals of a dashboard. */
 .section-label {
-  font-family: var(--font-body);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 1.5rem;
-  padding-bottom: 0;
-  border-bottom: 0;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-/* A short rule trailing off to the right, instead of a full divider line. */
-.section-label::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(to right, var(--border), transparent);
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--text-faint);
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+  max-width: var(--measure-wide);
 }
 
 /* ---------------------------------------------------------------------------
-   Newsletter cards
+   The note from you at the top of the home page
    --------------------------------------------------------------------------- */
 
-.card-grid {
+.letter {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  grid-template-columns: 5.5rem 1fr;
   gap: 1.75rem;
+  align-items: start;
+  max-width: var(--measure);
+  margin-bottom: clamp(3rem, 6vw, 4.5rem);
+}
+
+@media (max-width: 560px) {
+  .letter {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+}
+
+.letter__portrait {
+  width: 5.5rem;
+  height: 5.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--bg-sunken);
+}
+
+/* Without a photo the note simply runs the full width. */
+.letter--no-portrait {
+  grid-template-columns: 1fr;
+}
+
+/* The portrait on the About page — a photo beside the story, not a hero. */
+.about__portrait {
+  width: min(18rem, 100%);
+  border-radius: var(--radius-lg);
+  margin-block: 2rem;
+  background: var(--bg-sunken);
+}
+
+.letter__greeting {
+  font-size: 1.3rem;
+  margin-bottom: 0.6rem;
+}
+
+.letter p:last-child {
+  margin-bottom: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Signature
+   --------------------------------------------------------------------------- */
+
+.signature {
+  font-size: 1.3rem;
+  font-style: italic;
+  color: var(--text-soft);
+  margin-top: 1.75rem;
+  margin-bottom: 0;
+}
+
+/* The closing and the name sit on their own lines, as they would on paper. */
+.signature__line {
+  display: block;
+  line-height: 1.45;
+}
+
+/* ---------------------------------------------------------------------------
+   Update cards
+   --------------------------------------------------------------------------- */
+
+/* A list of updates with a snapshot alongside, rather than a grid of tiles. */
+.entry-list {
   list-style: none;
   padding: 0;
   margin: 0;
-  /* Cards size to their own content, so issues without a cover photo do not
-     get stretched to match the height of ones that have a photo. */
+  max-width: var(--measure-wide);
+}
+
+.entry {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 13rem;
+  gap: 2rem;
   align-items: start;
+  padding-block: 2rem;
+  border-top: 1px solid var(--border);
 }
 
-.card {
-  background: var(--bg-raised);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
+.entry:first-child {
+  border-top: 0;
+  padding-top: 0.5rem;
+}
+
+@media (max-width: 680px) {
+  .entry {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  /* Photo above the words on a narrow screen. */
+  .entry__media {
+    order: -1;
+  }
+}
+
+.entry__media {
+  border-radius: var(--radius);
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  box-shadow: var(--shadow-sm);
-  transition:
-    transform 0.18s ease,
-    box-shadow 0.18s ease,
-    border-color 0.18s ease;
-}
-
-.card:hover {
-  transform: translateY(-3px);
-  border-color: color-mix(in srgb, var(--accent) 25%, transparent);
-  box-shadow: var(--shadow-lg);
-}
-
-.card__media {
-  /* A little taller than widescreen, so phone photos keep more of the frame. */
-  aspect-ratio: 3 / 2;
   background: var(--bg-sunken);
-  overflow: hidden;
 }
 
-.card__media img {
+.entry__media img {
   width: 100%;
-  height: 100%;
+  aspect-ratio: 4 / 3;
   object-fit: cover;
 }
 
-.card__body {
-  padding: 1.4rem;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
+.entry__date {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--text-faint);
+  margin: 0 0 0.3rem;
 }
 
-.card__date {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--accent);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-bottom: 0.5rem;
-}
-
-.card__title {
-  font-size: 1.25rem;
+.entry__title {
+  font-size: 1.45rem;
   margin: 0 0 0.5rem;
 }
 
-.card__title a {
+.entry__title a {
   color: inherit;
   text-decoration: none;
 }
 
-/* Makes the whole card clickable while keeping one real link for screen readers. */
-.card__title a::after {
+/* Makes the whole row clickable while keeping one real link for screen readers. */
+.entry__title a::after {
   content: '';
   position: absolute;
   inset: 0;
 }
 
-.card {
-  position: relative;
-}
-
-.card__title a:hover {
+.entry__title a:hover {
   color: var(--accent);
 }
 
-.card__summary {
+.entry__summary {
   color: var(--text-soft);
-  font-size: 0.9375rem;
   margin: 0;
 }
 
@@ -595,18 +681,15 @@ main {
 }
 
 .issue__date {
+  font-family: var(--font-ui);
   font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--accent);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  color: var(--text-faint);
 }
 
 .issue__title {
   font-family: var(--font-display);
   font-size: 1.3rem;
-  font-weight: 700;
-  letter-spacing: -0.015em;
+  font-weight: 600;
   margin: 0 0 0.3rem;
 }
 
@@ -633,17 +716,17 @@ main {
 }
 
 .year-heading {
-  font-family: var(--font-body);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--text-faint);
   margin: 2.75rem 0 0.75rem;
 }
 
 /* ---------------------------------------------------------------------------
-   Article (a single newsletter)
+   Article (a single update)
    --------------------------------------------------------------------------- */
 
 .article {
@@ -656,17 +739,16 @@ main {
 }
 
 .article__date {
+  font-family: var(--font-ui);
   font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--accent);
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
+  color: var(--text-faint);
   margin-bottom: 0.75rem;
 }
 
 .article__summary {
-  font-size: 1.15rem;
-  line-height: 1.65;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  font-style: italic;
   color: var(--text-soft);
   margin: 0;
 }
@@ -703,7 +785,7 @@ main {
   box-shadow: var(--shadow);
 }
 
-/* Long-form body copy inside a newsletter. */
+/* Long-form body copy inside a update. */
 .prose {
   font-size: 1.0625rem;
 }
@@ -726,15 +808,16 @@ main {
   box-shadow: var(--shadow);
 }
 
+/* A verse or a quotation, set the way you would indent one in a letter. */
 .prose blockquote {
-  margin: 2rem 0;
-  padding: 1.15rem 1.5rem;
-  background: var(--accent-soft);
+  margin: 2.25rem 0 2.25rem 1.5rem;
+  padding: 0.1rem 0 0.1rem 1.5rem;
+  background: none;
   border: 0;
-  border-left: 3px solid var(--accent);
-  border-radius: 0 var(--radius) var(--radius) 0;
+  border-left: 2px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  border-radius: 0;
   color: var(--text-soft);
-  font-style: normal;
+  font-style: italic;
 }
 
 .prose blockquote p:last-child {
@@ -762,6 +845,7 @@ main {
 }
 
 .prose figcaption {
+  font-family: var(--font-ui);
   font-size: 0.875rem;
   color: var(--text-faint);
   text-align: center;
@@ -769,8 +853,39 @@ main {
 }
 
 /* ---------------------------------------------------------------------------
-   Photo gallery — two or more photos side by side inside a newsletter.
-   See src/content/newsletters/_TEMPLATE.md for how to write one.
+   Prayer requests — set apart from the rest of the letter, gently.
+   See src/content/updates/_TEMPLATE.md for how to write one.
+   --------------------------------------------------------------------------- */
+
+.prayer {
+  background: var(--accent-warm);
+  border: 1px solid color-mix(in srgb, #c9a227 18%, transparent);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.75rem;
+  margin-block: 2.5rem;
+}
+
+.prose .prayer > :first-child {
+  margin-top: 0;
+}
+
+.prose .prayer > :last-child {
+  margin-bottom: 0;
+}
+
+.prayer h2,
+.prayer h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+}
+
+.prayer ul {
+  margin-bottom: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Photo gallery — two or more photos side by side inside a update.
+   See src/content/updates/_TEMPLATE.md for how to write one.
    --------------------------------------------------------------------------- */
 
 .gallery,
@@ -819,14 +934,16 @@ main {
 }
 
 .tag {
-  font-size: 0.75rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  font-weight: 600;
-  color: var(--accent-hover);
-  background: var(--accent-soft);
-  padding: 0.25rem 0.65rem;
-  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--text-faint);
+}
+
+.tag + .tag::before {
+  content: '\00b7';
+  margin-right: 0.5rem;
 }
 
 /* ---------------------------------------------------------------------------
@@ -854,23 +971,20 @@ main {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 1rem 1.15rem;
-  background: var(--bg-raised);
-  box-shadow: var(--shadow-sm);
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease;
+  background: none;
+  transition: border-color 0.15s ease;
 }
 
 .issue-nav a:hover {
-  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
-  box-shadow: var(--shadow);
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
 }
 
 .issue-nav__label {
   display: block;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  text-transform: none;
+  letter-spacing: 0;
   color: var(--text-faint);
   margin-bottom: 0.3rem;
 }
@@ -878,37 +992,10 @@ main {
 .issue-nav__title {
   font-family: var(--font-display);
   font-weight: 600;
-  letter-spacing: -0.01em;
 }
 
 .issue-nav__next {
   text-align: right;
-}
-
-/* ---------------------------------------------------------------------------
-   Callout box (used on the home page for the giving link)
-   --------------------------------------------------------------------------- */
-
-.callout {
-  background: linear-gradient(140deg, var(--accent-soft), var(--accent-warm));
-  border: 1px solid color-mix(in srgb, var(--accent) 14%, transparent);
-  border-radius: var(--radius-lg);
-  padding: 2rem;
-  margin-top: 4rem;
-  max-width: var(--measure);
-}
-
-.callout h2 {
-  margin-top: 0;
-  font-size: 1.3rem;
-}
-
-.callout p {
-  color: var(--text-soft);
-}
-
-.callout p:last-of-type {
-  margin-bottom: 1.25rem;
 }
 
 /* ---------------------------------------------------------------------------
@@ -917,10 +1004,11 @@ main {
 
 .site-footer {
   border-top: 1px solid var(--border);
-  background: var(--bg-sunken);
+  background: none;
   padding-block: 2.5rem;
   margin-top: 5rem;
-  font-size: 0.9rem;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
   color: var(--text-faint);
 }
 

@@ -1,31 +1,31 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import {
-  getPublishedNewsletters,
+  getPublishedUpdates,
   formatShortDate,
   groupByYear,
-} from '~/lib/newsletters';
+} from '~/lib/updates';
 import { withBase } from '~/lib/url';
 
-const all = await getPublishedNewsletters();
+const all = await getPublishedUpdates();
 const byYear = groupByYear(all);
 ---
 
 <BaseLayout
-  title="Newsletters"
-  description="Every newsletter update, from the most recent back to the beginning."
+  title="Updates"
+  description="Every update, from the most recent back to the beginning."
 >
-  <h1>Newsletters</h1>
+  <h1>Every update</h1>
   <p style="color: var(--text-soft); max-width: var(--measure)">
-    Every update we have sent out, newest first. {all.length}
-    {all.length === 1 ? 'issue' : 'issues'} so far.
+    Everything I have written, newest first — {all.length}{' '}
+    {all.length === 1 ? 'letter' : 'letters'} so far.
   </p>
 
   {
     byYear.length === 0 ? (
       <div class="empty" style="margin-top: 2rem">
         <p><strong>Nothing here yet.</strong></p>
-        <p>The first newsletter will appear on this page once it is published.</p>
+        <p>The first update will appear on this page once it is published.</p>
       </div>
     ) : (
       byYear.map(([year, entries]) => (
@@ -37,7 +37,7 @@ const byYear = groupByYear(all);
                 <span class="issue__date">{formatShortDate(entry.data.date)}</span>
                 <div>
                   <h3 class="issue__title">
-                    <a href={withBase(`/newsletters/${entry.id}`)}>{entry.data.title}</a>
+                    <a href={withBase(`/updates/${entry.id}`)}>{entry.data.title}</a>
                   </h3>
                   <p class="issue__summary">{entry.data.summary}</p>
                 </div>

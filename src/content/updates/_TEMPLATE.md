@@ -20,6 +20,23 @@ Use `##` for section headings. You can **bold** things, use _italics_, and
 
 > Use a `>` at the start of a line for a pulled-out quote or verse.
 
+## Prayer requests
+
+Wrap prayer requests in a prayer block and they are set apart from the rest of
+the letter. Keep the blank lines above and below what is inside:
+
+<div class="prayer">
+
+### How to pray
+
+- For the new students arriving in January
+- For rest — it has been a long season
+
+</div>
+
+You do not need to sign the bottom — your sign-off from `src/config.ts` is added
+to every update automatically.
+
 ## Adding photos
 
 Put the image file in this same folder, then reference it by filename:

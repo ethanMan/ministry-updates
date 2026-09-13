@@ -1,52 +1,74 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '~/layouts/BaseLayout.astro';
+import Signature from '~/components/Signature.astro';
 import { site } from '~/config';
 import { withBase } from '~/lib/url';
+
+const portraitFiles = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/portrait.{jpg,jpeg,png,webp,avif}',
+  { eager: true },
+);
+const portrait = Object.values(portraitFiles)[0]?.default;
 ---
 
-<BaseLayout title="About" description={`About ${site.name} and this ministry.`}>
+<BaseLayout title="About" description={`About ${site.name}.`}>
   <article class="article">
     <header class="article__header">
-      <h1>About</h1>
-      <p class="article__summary">
-        A little about who we are and what God has called us to.
-      </p>
+      <h1>About me</h1>
+      <p class="article__summary">A little about who I am and what I am doing here.</p>
     </header>
 
+    {
+      portrait && (
+        <Image
+          class="about__portrait"
+          src={portrait}
+          alt={site.portraitAlt}
+          width={576}
+          widths={[288, 576, 864]}
+          sizes="(max-width: 400px) calc(100vw - 2.5rem), 288px"
+          loading="eager"
+        />
+      )
+    }
+
     <div class="prose">
-      <!-- Replace everything below with your own story. -->
+      {/* Replace everything below with your own story. */}
       <p>
-        Hi, and thank you for stopping by. This page is where you can share your story —
-        who you are, where you serve, and what God is doing through this ministry.
+        Hi, and thank you for stopping by. I'm {site.name}, and this is where I write to
+        the people who pray for and support me.
       </p>
 
-      <h2>Our calling</h2>
+      <h2>How I got here</h2>
       <p>
-        Write a few paragraphs about how you came to this work, the community you serve,
-        and the vision you are praying toward.
+        Write a few paragraphs about how you came to this work, the people you are with,
+        and what you are praying toward. It does not need to be polished — the people
+        reading it already know you.
       </p>
 
-      <h2>How to pray</h2>
+      <h2>What I am asking prayer for</h2>
       <p>
-        List the things you would most like your partners praying over. This section tends
-        to be the one people come back to.
+        List the things you would most like your partners praying over. In my experience
+        this is the section people come back to.
       </p>
 
       <h2>Staying in touch</h2>
       <p>
-        New updates are posted on the
-        <a href={withBase('/newsletters')}>newsletters page</a>. Feel
-        free to bookmark it or share the link with anyone who wants to follow along.
+        I post new updates on the <a href={withBase('/updates')}>updates page</a>.
+        Bookmark it, or pass the link along to anyone who wants to follow along.
       </p>
 
       {
         site.contact.email && (
           <p>
-            You can also reach us directly at{' '}
+            You can also write to me directly at{' '}
             <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>.
           </p>
         )
       }
+
+      <Signature />
     </div>
   </article>
 </BaseLayout>

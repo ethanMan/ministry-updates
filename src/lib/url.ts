@@ -5,7 +5,7 @@
  *
  * Always use this for hand-written internal links:
  *
- *   <a href={withBase('/newsletters')}>Newsletters</a>
+ *   <a href={withBase('/updates')}>Updates</a>
  *
  * Astro already handles the base path for images, CSS, and anything it bundles,
  * so this is only needed for `href` strings you write yourself.

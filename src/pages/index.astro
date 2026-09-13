@@ -1,14 +1,14 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '~/layouts/BaseLayout.astro';
-import NewsletterCard from '~/components/NewsletterCard.astro';
+import UpdateCard from '~/components/UpdateCard.astro';
+import Signature from '~/components/Signature.astro';
 import { site } from '~/config';
-import { getPublishedNewsletters } from '~/lib/newsletters';
+import { getPublishedUpdates } from '~/lib/updates';
 import { withBase } from '~/lib/url';
 
-const all = await getPublishedNewsletters();
+const all = await getPublishedUpdates();
 const recent = all.slice(0, 6);
-const latest = all[0];
 
 // Matched as a pattern rather than imported directly, so the banner can be a
 // .jpg, .png or .webp — and so deleting the file simply hides it instead of
@@ -18,6 +18,13 @@ const bannerFiles = import.meta.glob<{ default: ImageMetadata }>(
   { eager: true },
 );
 const banner = Object.values(bannerFiles)[0]?.default;
+
+// Same pattern for the portrait beside the note below.
+const portraitFiles = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/portrait.{jpg,jpeg,png,webp,avif}',
+  { eager: true },
+);
+const portrait = Object.values(portraitFiles)[0]?.default;
 ---
 
 <BaseLayout image={banner?.src} flush={Boolean(banner)}>
@@ -43,23 +50,28 @@ const banner = Object.values(bannerFiles)[0]?.default;
     <div class="hero__content">
       <h1>{site.tagline}</h1>
       <p>{site.description}</p>
+    </div>
+  </section>
 
-      <div class="hero__actions">
-        {
-          latest && (
-            <a class="btn" href={withBase(`/newsletters/${latest.id}`)}>
-              Read the latest update
-            </a>
-          )
-        }
-        {
-          all.length > 1 && (
-            <a class="btn btn--ghost" href={withBase('/newsletters')}>
-              Browse all newsletters
-            </a>
-          )
-        }
-      </div>
+  {/* A short note in your own voice, the way a letter opens. */}
+  <section class:list={['letter', !portrait && 'letter--no-portrait']}>
+    {
+      portrait && (
+        <Image
+          class="letter__portrait"
+          src={portrait}
+          alt={site.portraitAlt}
+          width={176}
+          densities={[1, 2]}
+          loading="eager"
+        />
+      )
+    }
+
+    <div>
+      {site.greeting && <p class="letter__greeting">{site.greeting}</p>}
+      <p>{site.intro}</p>
+      <Signature />
     </div>
   </section>
 
@@ -67,35 +79,28 @@ const banner = Object.values(bannerFiles)[0]?.default;
     recent.length > 0 ? (
       <section>
         <h2 class="section-label">Recent updates</h2>
-        <ul class="card-grid">
+        <ul class="entry-list">
           {recent.map((entry) => (
-            <NewsletterCard entry={entry} />
+            <UpdateCard entry={entry} />
           ))}
         </ul>
+
+        {all.length > recent.length && (
+          <p style="margin-top: 2rem">
+            <a class="link-more" href={withBase('/updates')}>
+              Every update
+            </a>
+          </p>
+        )}
       </section>
     ) : (
       <div class="empty">
-        <p><strong>No newsletters published yet.</strong></p>
+        <p><strong>No updates published yet.</strong></p>
         <p>
-          Add a markdown file to <code>src/content/newsletters/</code> and it will show up
+          Add a markdown file to <code>src/content/updates/</code> and it will show up
           here automatically.
         </p>
       </div>
-    )
-  }
-
-  {
-    site.givingUrl && (
-      <aside class="callout">
-        <h2>{site.givingLabel}</h2>
-        <p>
-          Thank you for standing with us. Your partnership in prayer and giving is what
-          makes this ministry possible.
-        </p>
-        <a class="btn" href={site.givingUrl} rel="noopener">
-          {site.givingLabel}
-        </a>
-      </aside>
     )
   }
 </BaseLayout>

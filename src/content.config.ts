@@ -3,16 +3,16 @@ import { glob } from 'astro/loaders';
 import { z } from 'zod';
 
 /**
- * Each newsletter is one markdown file in src/content/newsletters/.
+ * Each update is one markdown file in src/content/updates/.
  * The block of settings at the top of that file (the "frontmatter") has to
  * match the shape below, otherwise the build fails with a readable error.
  */
-const newsletters = defineCollection({
+const updates = defineCollection({
   // Files starting with an underscore are ignored, which is what keeps
   // _TEMPLATE.md out of the site.
   loader: glob({
     pattern: ['**/*.{md,mdx}', '!**/_*'],
-    base: './src/content/newsletters',
+    base: './src/content/updates',
   }),
   schema: ({ image }) =>
     z.object({
@@ -33,4 +33,4 @@ const newsletters = defineCollection({
     }),
 });
 
-export const collections = { newsletters };
+export const collections = { updates };

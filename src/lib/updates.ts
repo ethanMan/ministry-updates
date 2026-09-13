@@ -1,15 +1,15 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 
-export type Newsletter = CollectionEntry<'newsletters'>;
+export type Update = CollectionEntry<'updates'>;
 
 /**
- * Every published newsletter, newest first.
+ * Every published update, newest first.
  *
  * Drafts are hidden from the built site but still show while you are running
  * `npm run dev`, so you can preview an issue before publishing it.
  */
-export async function getPublishedNewsletters(): Promise<Newsletter[]> {
-  const entries = await getCollection('newsletters', ({ data }) =>
+export async function getPublishedUpdates(): Promise<Update[]> {
+  const entries = await getCollection('updates', ({ data }) =>
     import.meta.env.PROD ? data.draft !== true : true,
   );
 
@@ -26,7 +26,7 @@ export function formatDate(date: Date): string {
   });
 }
 
-/** Formats a date as "Sep 2026", used in the compact archive list. */
+/** Formats a date as "Sep 1, 2026", used in the compact archive list. */
 export function formatShortDate(date: Date): string {
   return date.toLocaleDateString('en-US', {
     month: 'short',
@@ -36,9 +36,21 @@ export function formatShortDate(date: Date): string {
   });
 }
 
+/**
+ * Formats a date as "September 2026" — the way you would refer to an issue in
+ * conversation, rather than to the day.
+ */
+export function formatMonth(date: Date): string {
+  return date.toLocaleDateString('en-US', {
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'UTC',
+  });
+}
+
 /** Groups issues by calendar year for the archive page. */
-export function groupByYear(entries: Newsletter[]): [number, Newsletter[]][] {
-  const groups = new Map<number, Newsletter[]>();
+export function groupByYear(entries: Update[]): [number, Update[]][] {
+  const groups = new Map<number, Update[]>();
 
   for (const entry of entries) {
     const year = entry.data.date.getUTCFullYear();

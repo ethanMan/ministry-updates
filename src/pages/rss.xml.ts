@@ -1,7 +1,7 @@
 import rss from '@astrojs/rss';
 import type { APIContext } from 'astro';
 import { site } from '~/config';
-import { getPublishedNewsletters } from '~/lib/newsletters';
+import { getPublishedUpdates } from '~/lib/updates';
 import { withBase } from '~/lib/url';
 
 /**
@@ -9,7 +9,7 @@ import { withBase } from '~/lib/url';
  * Available at /rss.xml
  */
 export async function GET(context: APIContext) {
-  const entries = await getPublishedNewsletters();
+  const entries = await getPublishedUpdates();
 
   return rss({
     title: `${site.name} — ${site.tagline}`,
@@ -20,7 +20,7 @@ export async function GET(context: APIContext) {
       title: entry.data.title,
       description: entry.data.summary,
       pubDate: entry.data.date,
-      link: withBase(`/newsletters/${entry.id}/`),
+      link: withBase(`/updates/${entry.id}/`),
     })),
   });
 }

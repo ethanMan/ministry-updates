@@ -10,11 +10,41 @@ export const site = {
   name: 'Ethan Man',
 
   /** The short line under your name in the header. */
-  tagline: 'Ministry updates for our partners',
+  tagline: 'Partner updates',
 
   /** Used for SEO descriptions and the RSS feed. */
   description:
-    'Newsletter updates, prayer requests, and stories from the field — written for the friends and family who partner with us.',
+    'Updates, prayer requests, and stories from my time in GCTC.',
+
+  /**
+   * The short note in your own voice at the top of the home page. Write it the
+   * way you would open a letter — a few sentences is plenty.
+   */
+  greeting: 'Hi friends,',
+  intro:
+    "Thank you for being part of this season and joining me in pursuing " +
+    'my vision to reach millions of college students in His name. I’m excited ' +
+    'to share updates, stories, and prayer requests with you. Thank you for ' +
+    'your prayers, support, and partnership!',
+
+  /**
+   * How you close a letter. Both lines appear at the foot of the home page and
+   * of every update:
+   *
+   *   In His love,
+   *   Ethan
+   *
+   * Leave either one empty to drop that line.
+   */
+  closing: 'In His love,',
+  signOff: 'Ethan',
+
+  /**
+   * The small photo of you shown beside the note on the home page and on the
+   * About page. Replace src/assets/portrait.jpg with your own, or delete the
+   * file to leave it out.
+   */
+  portraitAlt: 'Ethan',
 
   /**
    * The domain your site lives on. Must start with https:// and have NO path
@@ -71,6 +101,6 @@ export const site = {
 /** Top navigation links. */
 export const nav = [
   { href: '/', label: 'Home' },
-  { href: '/newsletters', label: 'Newsletters' },
+  { href: '/updates', label: 'Updates' },
   { href: '/about', label: 'About' },
 ] as const;

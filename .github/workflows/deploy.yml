@@ -1,5 +1,5 @@
 # Builds the site and publishes it to GitHub Pages on every push to main.
-# Nothing to run by hand — pushing a new newsletter is the whole workflow.
+# Nothing to run by hand — pushing a new update is the whole workflow.
 name: Deploy to GitHub Pages
 
 on:
