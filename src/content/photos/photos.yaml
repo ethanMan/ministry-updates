@@ -1,0 +1,47 @@
+# The photo gallery at /photos.
+#
+# Two steps to add a photo:
+#   1. Drop the image file into this folder (src/content/photos/).
+#   2. Add a block below, using the exact filename as the first line.
+#
+# Photos straight off a phone or camera are fine — the build resizes them and
+# serves the right size to each visitor. Any shape works: tall, wide, square,
+# panorama. The page arranges them into full rows automatically.
+#
+# Order on the page comes from `date`, newest first. The order of the blocks in
+# this file does not matter, so new photos can just go at the top.
+#
+#   'filename.jpg':
+#     date: 2026-09-12               # YYYY-MM-DD, shown with the photo
+#     caption: 'What is happening.'  # shown with the photo; optional
+#     alt: 'Who and what is in it.'  # for screen readers; falls back to caption
+#
+# Wrap the filename and the text in 'single quotes'. If the text itself needs an
+# apostrophe, double it: 'Ethan''s first week'.
+#
+# This folder is the whole photo library: updates point into it with
+# '../photos/my-photo.jpg', and the same file is listed here by name. A photo
+# used in both places is stored once.
+#
+# Photos in this folder with no block below are left off the page, and the build
+# says so — UNLESS the name starts with an underscore. '_roof-detail.jpg' is
+# ignored quietly, which is how a photo meant only for an update sits in here
+# without nagging. A block naming a file that is not there stops the build.
+#
+# Once there are a lot of photos, subfolders work: put the file in
+# src/content/photos/2026/ and list it as '2026/retreat.jpg'.
+
+'2026-06-24-kcon.jpg':
+  date: 2026-06-24
+  caption: 'The stage at KCCC''s Summer Conference.'
+  alt: 'The stage at KCCC''s Summer Conference, with a large screen and a few people on it.'
+
+'2026-06-26-kcon-team.jpg':
+  date: 2026-06-26
+  caption: 'The KCCC Summer Conference team.'
+  alt: 'The KCCC Summer Conference team, standing in front of a large decoration.'
+
+'2026-09-11-class28.jpg':
+  date: 2026-09-11
+  caption: 'The 28th class of GCTC.'
+  alt: 'The 28th class of GCTC, sitting on a couch.'
