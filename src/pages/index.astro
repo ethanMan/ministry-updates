@@ -48,36 +48,38 @@ const portrait = Object.values(portraitFiles)[0]?.default;
     }
 
     <div class="hero__content">
-      <h1>{site.tagline}</h1>
+      <h1>{site.homeHeading}</h1>
       <p>{site.description}</p>
     </div>
   </section>
 
   {/* A short note in your own voice, the way a letter opens. */}
-  <section class:list={['letter', !portrait && 'letter--no-portrait']}>
-    {
-      portrait && (
-        <Image
-          class="letter__portrait"
-          src={portrait}
-          alt={site.portraitAlt}
-          width={176}
-          densities={[1, 2]}
-          loading="eager"
-        />
-      )
-    }
+  <div class="column">
+    <section class:list={['letter', !portrait && 'letter--no-portrait']}>
+      {
+        portrait && (
+          <Image
+            class="letter__portrait"
+            src={portrait}
+            alt={site.portraitAlt}
+            width={176}
+            densities={[1, 2]}
+            loading="eager"
+          />
+        )
+      }
 
-    <div>
-      {site.greeting && <p class="letter__greeting">{site.greeting}</p>}
-      <p>{site.intro}</p>
-      <Signature />
-    </div>
-  </section>
+      <div>
+        {site.greeting && <p class="letter__greeting">{site.greeting}</p>}
+        <p>{site.intro}</p>
+        <Signature />
+      </div>
+    </section>
+  </div>
 
   {
     recent.length > 0 ? (
-      <section>
+      <section class="column">
         <h2 class="section-label">Recent updates</h2>
         <ul class="entry-list">
           {recent.map((entry) => (
@@ -94,7 +96,7 @@ const portrait = Object.values(portraitFiles)[0]?.default;
         )}
       </section>
     ) : (
-      <div class="empty">
+      <div class="empty column">
         <p><strong>No updates published yet.</strong></p>
         <p>
           Add a markdown file to <code>src/content/updates/</code> and it will show up

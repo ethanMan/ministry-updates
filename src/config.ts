@@ -9,12 +9,15 @@ export const site = {
   /** Shown in the header and as the browser tab title. */
   name: 'Ethan Man',
 
-  /** The short line under your name in the header. */
-  tagline: 'Partner updates',
+  /** The short line under your name in the header, and in the browser tab. */
+  tagline: 'SOON Movement Global',
+
+  /** The headline across the photo at the top of the home page. */
+  homeHeading: 'Come with me...',
 
   /** Used for SEO descriptions and the RSS feed. */
   description:
-    'Updates, prayer requests, and stories from my time in GCTC.',
+    'A window into the happenings, stories, and prayers of GCTC and SOON Movement Global.',
 
   /**
    * The short note in your own voice at the top of the home page. Write it the
