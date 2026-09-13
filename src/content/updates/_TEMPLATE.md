@@ -39,9 +39,11 @@ to every update automatically.
 
 ## Adding photos
 
-Put the image file in this same folder, then reference it by filename:
+Every photo lives in one place — `src/content/photos/` — whether it is used here, on
+the gallery page, or both. Put the image file in there, then point at it with
+`../photos/`:
 
-![A short description of the photo for screen readers](./my-photo.jpg)
+![A short description of the photo for screen readers](../photos/my-photo.jpg)
 
 Photos are shown wider than the text, so they have room to breathe.
 
@@ -50,8 +52,8 @@ above and below the images — they are what makes it work:
 
 <div class="gallery">
 
-![First photo](./my-photo.jpg)
-![Second photo](./my-other-photo.jpg)
+![First photo](../photos/my-photo.jpg)
+![Second photo](../photos/my-other-photo.jpg)
 
 </div>
 
@@ -59,9 +61,12 @@ To add a cover photo at the top of the issue, add these two lines to the block a
 very top of this file:
 
 ```
-cover: './my-photo.jpg'
+cover: '../photos/my-photo.jpg'
 coverAlt: 'A short description of the photo'
 ```
+
+A photo you want in an update but *not* on the gallery page should be named with a
+leading underscore — `_my-photo.jpg` — which keeps it off the gallery quietly.
 
 ---
 

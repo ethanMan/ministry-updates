@@ -13,6 +13,12 @@ export default defineConfig({
 
   integrations: [sitemap()],
 
+  // Resized photos are cached here so a rebuild only has to process the photos
+  // that are new. This normally lives inside node_modules, which GitHub Actions
+  // wipes on every deploy; keeping it outside means the gallery does not get
+  // re-processed from scratch each time. See .github/workflows/deploy.yml.
+  cacheDir: './.astro-cache',
+
 
   // Cloudflare Pages serves /about as /about/, so matching that here keeps
   // links consistent between local dev and the live site.

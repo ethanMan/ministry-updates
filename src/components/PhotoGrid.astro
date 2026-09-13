@@ -1,0 +1,193 @@
+---
+import { Image, getImage } from 'astro:assets';
+import { formatDate } from '~/lib/updates';
+import type { PhotoRow } from '~/lib/photos';
+
+interface Props {
+  rows: PhotoRow[];
+  /** How wide the collage can grow, in pixels. Matches --page-max. */
+  maxWidth?: number;
+}
+
+const { rows, maxWidth = 1080 } = Astro.props;
+
+/** The sizes Astro will generate. Anything larger than the photo is skipped. */
+const LADDER = [320, 480, 640, 800, 1024, 1280, 1600];
+
+/**
+ * Work out, for every photo, how wide it will actually be drawn and which
+ * versions of it are worth generating. Because the rows are already decided,
+ * this is exact rather than a guess: a photo taking up a quarter of a 1080px
+ * row is drawn 270px wide, so there is no reason to ship a 1600px copy of it
+ * to a laptop. The larger sizes are still generated for phones, where the same
+ * photo goes full width.
+ */
+const laidOut = await Promise.all(
+  rows.map(async (row) => ({
+    count: row.photos.length,
+    divisor: row.divisor,
+    // How much of the width the row covers: 1 for a full row, less for the
+    // short final one. Without this the photos in that last row would stretch
+    // sideways to fill the width, because flex-grow shares out whatever space
+    // the row is given regardless of how tall it has been made.
+    fill: row.ratioSum / row.divisor,
+    cells: await Promise.all(
+      row.photos.map(async (photo) => {
+        const share = photo.ratio / row.divisor;
+        const displayWidth = Math.round(maxWidth * share);
+
+        // Enough for this photo at twice its drawn size on a sharp screen, and
+        // never less than a phone screen's worth, since the rows collapse to
+        // one photo per row on narrow windows.
+        const needed = Math.min(
+          Math.max(displayWidth * 2, 1280),
+          photo.image.width,
+        );
+        const widths = LADDER.filter((w) => w <= needed);
+        if (widths.length === 0) widths.push(photo.image.width);
+
+        // The copy shown when a photo is opened full screen.
+        const full = await getImage({
+          src: photo.image,
+          width: Math.min(1800, photo.image.width),
+        });
+
+        return {
+          photo,
+          widths,
+          displayWidth,
+          full,
+          sizes: [
+            `(max-width: 640px) calc(100vw - 2.5rem)`,
+            `min(${(share * 100).toFixed(1)}vw, ${displayWidth}px)`,
+          ].join(', '),
+        };
+      }),
+    ),
+  })),
+);
+---
+
+<div class="photo-grid">
+  {
+    laidOut.map((row) => (
+      <div
+        class="photo-row"
+        style={`--divisor: ${row.divisor.toFixed(4)}; --count: ${row.count}; --fill: ${row.fill.toFixed(4)}`}
+      >
+        {row.cells.map(({ photo, widths, displayWidth, sizes, full }) => (
+          <figure class="photo" style={`--ratio: ${photo.ratio.toFixed(4)}`}>
+            {/* Without JavaScript this is still a working link to the photo at
+                full size; the script below turns it into the lightbox. */}
+            <a
+              class="photo__link"
+              href={full.src}
+              data-full={full.src}
+              data-date={formatDate(photo.date)}
+              data-caption={photo.caption}
+              data-alt={photo.alt}
+            >
+              <Image
+                src={photo.image}
+                alt={photo.alt}
+                width={displayWidth}
+                widths={widths}
+                sizes={sizes}
+                loading="lazy"
+                decoding="async"
+              />
+            </a>
+
+            <figcaption class="photo__caption">
+              <span class="photo__date">{formatDate(photo.date)}</span>
+              {photo.caption && (
+                <span class="photo__text">{photo.caption}</span>
+              )}
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    ))
+  }
+</div>
+
+{/* One dialog reused for every photo, rather than one per photo. */}
+<dialog class="lightbox" aria-label="Photo viewer">
+  <button class="lightbox__close" type="button" aria-label="Close">&times;</button>
+  <button class="lightbox__step lightbox__step--prev" type="button" aria-label="Previous photo">
+    &#8249;
+  </button>
+  <button class="lightbox__step lightbox__step--next" type="button" aria-label="Next photo">
+    &#8250;
+  </button>
+
+  <figure class="lightbox__figure">
+    <img class="lightbox__image" src="" alt="" />
+    <figcaption class="lightbox__caption">
+      <span class="lightbox__date"></span>
+      <span class="lightbox__text"></span>
+    </figcaption>
+  </figure>
+</dialog>
+
+<script>
+  // Progressive enhancement: the gallery is complete without this, and every
+  // photo already links to itself at full size. This only upgrades that link
+  // into a viewer you can step through.
+  const dialog = document.querySelector<HTMLDialogElement>('.lightbox');
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('.photo__link')];
+
+  if (dialog && links.length > 0) {
+    const image = dialog.querySelector<HTMLImageElement>('.lightbox__image')!;
+    const date = dialog.querySelector<HTMLElement>('.lightbox__date')!;
+    const text = dialog.querySelector<HTMLElement>('.lightbox__text')!;
+    const prev = dialog.querySelector<HTMLElement>('.lightbox__step--prev')!;
+    const next = dialog.querySelector<HTMLElement>('.lightbox__step--next')!;
+
+    let index = 0;
+
+    function show(to: number) {
+      // Wrap around, so the arrows never dead-end.
+      index = (to + links.length) % links.length;
+      const link = links[index]!;
+
+      image.src = link.dataset.full ?? link.href;
+      image.alt = link.dataset.alt ?? '';
+      date.textContent = link.dataset.date ?? '';
+      text.textContent = link.dataset.caption ?? '';
+    }
+
+    for (const [i, link] of links.entries()) {
+      link.addEventListener('click', (event) => {
+        // Leave modified clicks alone so "open in new tab" still works.
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) {
+          return;
+        }
+        event.preventDefault();
+        show(i);
+        dialog.showModal();
+      });
+    }
+
+    prev.addEventListener('click', () => show(index - 1));
+    next.addEventListener('click', () => show(index + 1));
+
+    dialog
+      .querySelector('.lightbox__close')!
+      .addEventListener('click', () => dialog.close());
+
+    // Clicking the backdrop — anywhere that is not the photo or a button.
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+
+    dialog.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') show(index - 1);
+      if (event.key === 'ArrowRight') show(index + 1);
+    });
+
+    // Put focus back on the photo that was open, so keyboard users do not lose
+    // their place in the grid.
+    dialog.addEventListener('close', () => links[index]?.focus());
+  }
+</script>

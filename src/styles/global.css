@@ -1062,3 +1062,275 @@ main {
 .empty p:last-child {
   margin-bottom: 0;
 }
+
+/* ---------------------------------------------------------------------------
+   Photos page — the collage at /photos.
+
+   The rows are worked out during the build (see src/lib/photos.ts), which
+   hands each row two numbers: how many photos are in it, and the sum of their
+   shapes. That is everything the browser needs to draw a flush row without
+   measuring anything, so there is no JavaScript behind the layout and nothing
+   jumps around as the photos load.
+
+   Inside a row every photo is the same height and keeps its own shape, so the
+   widths come out different and the row ends exactly at the right-hand edge:
+
+     row height = (space across - the gaps) / sum of the shapes
+
+   `cqw` is one percent of the width of .photo-grid, which is what lets that
+   sum stay true at any window size.
+   --------------------------------------------------------------------------- */
+
+.photos__header {
+  max-width: var(--measure);
+  margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+.photos__header p {
+  color: var(--text-soft);
+  margin-bottom: 0;
+}
+
+.photo-grid {
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  gap: var(--photo-gap);
+
+  --photo-gap: 0.5rem;
+}
+
+.photo-row {
+  --gaps: calc((var(--count) - 1) * var(--photo-gap));
+
+  display: flex;
+  gap: var(--photo-gap);
+  height: calc((100cqw - var(--gaps)) / var(--divisor));
+  /* A full row is the whole width (--fill is 1). The short final row is given
+     only the width its photos actually need, so they keep their own shapes
+     instead of being stretched across the page. */
+  width: calc((100cqw - var(--gaps)) * var(--fill) + var(--gaps));
+}
+
+/* Each photo takes a share of the row in proportion to its shape, which is
+   what makes every photo in the row come out the same height. */
+.photo {
+  position: relative;
+  flex: var(--ratio) 1 0;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--bg-sunken);
+}
+
+.photo__link {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* The cell is already the photo's own shape, so this crops nothing — it is
+     here to absorb the half-pixel rounding that would otherwise show as a
+     hairline along the edge of a photo. */
+  object-fit: cover;
+  transition: transform 0.45s ease;
+}
+
+.photo:hover img {
+  transform: scale(1.03);
+}
+
+.photo__link:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: -3px;
+}
+
+/* The caption sits over the foot of the photo, out of the way until wanted. */
+.photo__caption {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  padding: 2.75rem 0.85rem 0.7rem;
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: #fff;
+  background: linear-gradient(
+    to top,
+    rgb(18 24 20 / 0.82),
+    rgb(18 24 20 / 0.45) 45%,
+    transparent
+  );
+  opacity: 0;
+  transform: translateY(0.35rem);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+  pointer-events: none;
+}
+
+.photo:hover .photo__caption,
+.photo:focus-within .photo__caption {
+  opacity: 1;
+  transform: none;
+}
+
+.photo__date {
+  display: block;
+  font-size: 0.75rem;
+  color: rgb(255 255 255 / 0.75);
+}
+
+.photo__text {
+  display: block;
+  text-wrap: pretty;
+}
+
+/* Nothing hovers on a phone, so the caption stays put. */
+@media (hover: none) {
+  .photo__caption {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Rows of four or five are unreadable on a phone, so below this width the
+   collage becomes a single column and each photo is shown at its full shape. */
+@media (max-width: 640px) {
+  .photo-row {
+    display: block;
+    height: auto;
+    /* One photo per row now, so the short final row is no longer short. */
+    width: 100%;
+  }
+
+  .photo {
+    aspect-ratio: var(--ratio);
+  }
+
+  .photo + .photo {
+    margin-top: var(--photo-gap);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Photo viewer
+
+   Opened by clicking a photo. Without JavaScript the same click simply opens
+   the photo on its own, so nothing here is load-bearing.
+   --------------------------------------------------------------------------- */
+
+.lightbox {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  overflow: hidden;
+}
+
+.lightbox::backdrop {
+  background: rgb(16 22 18 / 0.96);
+}
+
+.lightbox__figure {
+  margin: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: clamp(1rem, 4vw, 3rem);
+}
+
+.lightbox__image {
+  min-height: 0;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: var(--radius);
+}
+
+.lightbox__caption {
+  flex: none;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  text-align: center;
+  color: rgb(255 255 255 / 0.85);
+  max-width: var(--measure);
+  text-wrap: pretty;
+}
+
+.lightbox__date {
+  display: block;
+  font-size: 0.78125rem;
+  color: rgb(255 255 255 / 0.55);
+  margin-bottom: 0.15rem;
+}
+
+.lightbox__close,
+.lightbox__step {
+  position: absolute;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.1);
+  color: #fff;
+  cursor: pointer;
+  line-height: 1;
+  transition: background 0.15s ease;
+}
+
+.lightbox__close:hover,
+.lightbox__step:hover {
+  background: rgb(255 255 255 / 0.22);
+}
+
+.lightbox__close:focus-visible,
+.lightbox__step:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.lightbox__close {
+  top: 1rem;
+  right: 1rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 1.6rem;
+}
+
+.lightbox__step {
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3rem;
+  height: 3rem;
+  font-size: 2rem;
+}
+
+.lightbox__step--prev {
+  left: 1rem;
+}
+
+.lightbox__step--next {
+  right: 1rem;
+}
+
+@media (max-width: 640px) {
+  .lightbox__step {
+    top: auto;
+    bottom: 1rem;
+    transform: none;
+  }
+}

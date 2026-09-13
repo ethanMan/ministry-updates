@@ -1,0 +1,51 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import PhotoGrid from '~/components/PhotoGrid.astro';
+import { getPhotos, packIntoRows } from '~/lib/photos';
+import { formatMonth } from '~/lib/updates';
+
+const photos = await getPhotos();
+const rows = packIntoRows(photos);
+
+// The span the photos cover, used for the line under the heading.
+const newest = photos.at(0)?.date;
+const oldest = photos.at(-1)?.date;
+const span =
+  newest && oldest && formatMonth(newest) !== formatMonth(oldest)
+    ? `${formatMonth(oldest)} to ${formatMonth(newest)}`
+    : newest
+      ? formatMonth(newest)
+      : '';
+---
+
+<BaseLayout
+  title="Photos"
+  description="Photos from the work, newest first."
+>
+  <header class="photos__header">
+    <h1>Photos</h1>
+    <p>
+      {
+        photos.length === 0
+          ? 'Photos from the work will appear here.'
+          : `${photos.length} ${photos.length === 1 ? 'photo' : 'photos'} from the work${span ? `, ${span}` : ''} — newest first. Click any one to see it larger.`
+      }
+    </p>
+  </header>
+
+  {
+    photos.length === 0 ? (
+      <div class="empty">
+        <p>
+          <strong>Nothing here yet.</strong>
+        </p>
+        <p>
+          Add photos to <code>src/content/photos/</code> and list them in{' '}
+          <code>photos.yaml</code> to fill this page.
+        </p>
+      </div>
+    ) : (
+      <PhotoGrid rows={rows} />
+    )
+  }
+</BaseLayout>

@@ -25,6 +25,16 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v4
 
+      # Resizing photos is the slow part of the build. Carrying the results
+      # between deploys means only newly added photos have to be processed, so
+      # a large gallery does not make every deploy slow.
+      - name: Restore the cache of resized photos
+        uses: actions/cache@v4
+        with:
+          path: .astro-cache
+          key: astro-assets-${{ github.sha }}
+          restore-keys: astro-assets-
+
       - name: Install, build, and upload the site
         uses: withastro/action@v3
         with:

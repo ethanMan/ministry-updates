@@ -2,6 +2,8 @@
 dist/
 # generated types
 .astro/
+# cache of resized photos
+.astro-cache/
 
 # dependencies
 node_modules/

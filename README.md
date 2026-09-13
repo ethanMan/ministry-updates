@@ -61,11 +61,11 @@ Leave `npm run dev` running while you write — the browser updates as you save.
 
 ### Adding photos
 
-Drop the image file into `src/content/updates/` next to your markdown file, then
-reference it by name:
+Every photo on the site lives in one folder: `src/content/photos/`. Drop the image
+file in there, then point at it with `../photos/`:
 
 ```markdown
-![Kids at the day camp](./day-camp.jpg)
+![Kids at the day camp](../photos/day-camp.jpg)
 ```
 
 Photos straight off a phone are fine — the build automatically resizes them, converts
@@ -81,12 +81,15 @@ images matter:
 ```markdown
 <div class="gallery">
 
-![Kids at the day camp](./day-camp.jpg)
-![The new roof](./roof.jpg)
-![Tuesday night dinner](./dinner.jpg)
+![Kids at the day camp](../photos/day-camp.jpg)
+![The new roof](../photos/roof.jpg)
+![Tuesday night dinner](../photos/dinner.jpg)
 
 </div>
 ```
+
+A cover photo works the same way — `cover: '../photos/day-camp.jpg'` in the block at
+the top of the file.
 
 ### Prayer requests
 
@@ -121,6 +124,84 @@ own computer but stays off the live site until you flip it to `false`.
 
 ---
 
+## The photo gallery
+
+`/photos` is a collage of every photo you add, newest first. Photos of any shape can
+go in it — tall, wide, square, panorama — and they are arranged into rows that each
+run flush across the page, with nothing cropped.
+
+Adding a photo takes two steps.
+
+**1. Drop the file into `src/content/photos/.`** Straight off a phone or camera is
+fine; the build resizes it. Name it however you like.
+
+**2. Add a block to `src/content/photos/photos.yaml`:**
+
+```yaml
+'2026-03-day-camp.jpg':
+  date: 2026-03-14
+  caption: 'The last morning of day camp.'
+  alt: 'Children and leaders sitting in a circle on the grass.'
+```
+
+The first line is the filename, exactly as it appears in the folder — `.jpg` and
+`.JPG` are different names as far as the build is concerned. `date` sets where the
+photo lands on the page, so the order of the blocks in the file does not matter and
+new photos can just go at the top. `caption` is shown with the photo; `alt`
+describes it for anyone using a screen reader, and falls back to the caption if you
+leave it out.
+
+The date and caption appear over the bottom of a photo when you point at it, and
+always on a phone. Clicking a photo opens it large, with arrow keys to step through.
+
+### One folder for every photo
+
+`src/content/photos/` is the whole photo library — updates point into it with
+`../photos/`, and the gallery lists the same files by name. A photo used in both
+places is stored once.
+
+There are only two rules:
+
+- **Everything in the folder is a gallery photo.** A photo with no block in
+  `photos.yaml` is left off the page and the build prints a warning, because a photo
+  with no date has nowhere to go in a list that runs newest to oldest.
+- **Unless it starts with `_`.** Name a photo `_roof-detail.jpg` and the gallery
+  ignores it quietly — the same convention that keeps `_TEMPLATE.md` off the site.
+  That is how a photo meant only for an update lives in the folder without nagging.
+
+A block naming a file that is not there **stops the build**, with a message listing
+every photo you could have meant.
+
+Once there are a lot of photos, subfolders work too — put the file in
+`src/content/photos/2026/` and list it as `'2026/retreat.jpg'`.
+
+If you ever do want a photo from outside the folder, give its path:
+`'~/assets/portrait.jpg'`, where `~` means the `src` folder.
+
+### How the collage works
+
+Every photo in a row is drawn at the same height and keeps its own shape, so the
+widths come out different and the row ends exactly at the right-hand edge. The rows
+are worked out during the build, in `src/lib/photos.ts`, because that is when the
+size of every photo is known — so the browser gets a finished layout and nothing
+shuffles around as the photos load. The last row usually cannot be filled, so it
+simply stops short rather than stretching its photos to reach the edge.
+
+On a phone the rows would be too small to see, so below 640px wide the collage
+becomes a single column, each photo at its full shape.
+
+To fit more or fewer photos per row, change the `target` in `packIntoRows` in
+`src/lib/photos.ts`. Higher means smaller photos and more of them per row.
+
+### Large galleries
+
+Resizing photos is the slow part of a build, so the results are cached in
+`.astro-cache/` and reused — only photos you have just added get processed.
+`.github/workflows/deploy.yml` carries that cache between deploys too, which is what
+keeps publishing quick once there are hundreds of photos in the gallery.
+
+---
+
 ## Making it yours
 
 Nearly everything personal lives in one file: **`src/config.ts`**. Open it to set your
@@ -143,8 +224,9 @@ A few other spots:
   `--measure-wide` controls how far photos spread past the text column.
 - **`public/favicon.svg`** — the little icon in the browser tab.
 
-Delete the two sample updates and `sample-cover.jpg` whenever you are ready. Keep
-`_TEMPLATE.md` — files starting with `_` are ignored by the build.
+Delete the two sample updates and `sample-cover.jpg` whenever you are ready, along with
+the `sample-*.jpg` photos in `src/content/photos/` and their entries in `photos.yaml`.
+Keep `_TEMPLATE.md` — files starting with `_` are ignored by the build.
 
 ---
 
@@ -241,6 +323,7 @@ You can run both hosts at once off the same repository, but they cannot use diff
 
 - **Home page** with a note from you and the most recent updates
 - **Archive** at `/updates`, grouped by year
+- **Photo gallery** at `/photos` — a collage of captioned photos, newest first
 - **Individual update pages** with previous/next navigation
 - **RSS feed** at `/rss.xml` for partners who use a reader
 - **Sitemap** for Google

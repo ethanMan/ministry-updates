@@ -1,5 +1,5 @@
 import { defineCollection } from 'astro:content';
-import { glob } from 'astro/loaders';
+import { file, glob } from 'astro/loaders';
 import { z } from 'zod';
 
 /**
@@ -33,4 +33,24 @@ const updates = defineCollection({
     }),
 });
 
-export const collections = { updates };
+/**
+ * The gallery at /photos. Unlike updates, all of the photos are described in
+ * one file — src/content/photos/photos.yaml — because a line or two per photo
+ * is easier to keep up with than a file per photo.
+ *
+ * The key of each block in that file is the image filename, which is how a
+ * caption finds its photo.
+ */
+const photos = defineCollection({
+  loader: file('src/content/photos/photos.yaml'),
+  schema: z.object({
+    /** When the photo was taken, written as YYYY-MM-DD. Sets the order. */
+    date: z.coerce.date(),
+    /** The line shown with the photo. */
+    caption: z.string().default(''),
+    /** Describes the photo for screen readers. Falls back to the caption. */
+    alt: z.string().default(''),
+  }),
+});
+
+export const collections = { updates, photos };
