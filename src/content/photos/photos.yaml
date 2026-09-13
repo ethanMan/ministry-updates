@@ -30,6 +30,10 @@
 #
 # Once there are a lot of photos, subfolders work: put the file in
 # src/content/photos/2026/ and list it as '2026/retreat.jpg'.
+'2026-04-29-grad.jpg':
+  date: 2026-04-29
+  caption: 'the 2025-26 Northeastern SOONjangs after Northeastern''s commencement.'
+  alt: 'The Northeastern SOONjangs at Krentzman Quad.'
 
 '2026-06-24-kcon.jpg':
   date: 2026-06-24

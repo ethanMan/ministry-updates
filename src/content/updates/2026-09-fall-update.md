@@ -1,18 +1,20 @@
 ---
 title: 'Fall Update: New Rhythms, New Faces'
-date: 2026-09-01
-summary: 'The summer team has gone home, the school year has started, and we are settling into a new rhythm. Here is what God has been doing.'
+date: 2026-09-13
+summary: 'Coming out of MPD training for the 28th class of GCTC, we are all filled with new fire and motivation to hit the ground running, and build our supporter teams.'
 cover: '../photos/2026-09-11-class28.jpg'
 coverAlt: 'The summer team gathered on the steps of the community center'
 tags: ['update', 'prayer']
-draft: false
+draft: true
 ---
 
 Dear friends and partners,
 
-It is hard to believe we are already into September. The summer felt like one long
-sprint, and now the mornings are cool enough that we are drinking coffee on the porch
-again. Thank you for walking with us through a full season.
+I can't believe it's officially begun. I spent this past week was spent in Southern California focusing on MPD (Ministry Partner Development) training, learning of God's provision over us, how to build a team of partners, and spending quality time with the 28th GCTC class!
+
+I have many encouragements I'd love to share, and write down as a reminder for myself, that I've written below.
+
+These next four months I'll be spending raising support, reaching out to old friends and new faces alike, and creating a team of prayerful and financial supporters that is really excited for what's to come.
 
 ## What happened this summer
 
@@ -42,7 +44,3 @@ is more than we planned for, which is a good problem to have.
 
 Thank you for praying, for giving, and for the texts and cards that show up right when
 we need them. We do not take a single one for granted.
-
-With love,
-
-**The Man Family**
