@@ -1,9 +1,9 @@
 ---
-title: 'Fall Update: New Rhythms, New Faces'
+title: 'And we''re off!!'
 date: 2026-09-13
 summary: 'Coming out of MPD training for the 28th class of GCTC, we are all filled with new fire and motivation to hit the ground running, and build our supporter teams.'
 cover: '../photos/2026-09-11-class28.jpg'
-coverAlt: 'The summer team gathered on the steps of the community center'
+coverAlt: 'The 28th GCTC class'
 tags: ['update', 'prayer']
 draft: true
 ---
@@ -16,18 +16,18 @@ I have many encouragements I'd love to share, and write down as a reminder for m
 
 These next four months I'll be spending raising support, reaching out to old friends and new faces alike, and creating a team of prayerful and financial supporters that is really excited for what's to come.
 
-## What happened this summer
+## The posture of giving
 
-We hosted three short-term teams between June and August. Together they helped us finish
-the roof on the community center, ran a two-week day camp for 60 kids, and spent a lot
-of evenings simply sitting with families in the neighborhood.
+Much of our training was about getting out of a "beggar mindset." For many of us it is uncomfortable to be asking for financial support, since it feels like begging others, but we were reminded time and time again that that is far from the reality of what we're asking others to do. 
 
-The day camp was the highlight. On the last afternoon, one of the older boys asked if he
-could keep coming back after the camp ended. We told him yes. He has shown up every
-Tuesday since.
+During one session we learned that giving is a vertical relationship, not a horizontal relationship as we may think. Our trainer talked about the Israelites who gave offerings, some of which who went to the Levites. Rather than giving straight from the Israelites to the Levites, The Israelites gave to God, who then gave His provision to the Levites. In that same way, we are asking our supporters to donate to the Lord's ministry, who then provides His provision over us through you. It is not us asking for money, it's us asking for financial support in a relationship with the Lord.
 
-> "Let us not grow weary of doing good, for in due season we will reap, if we do not
-> give up." — Galatians 6:9
+One verse that stood out to me in particular is the one you find below:
+
+> "Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver."
+> — 2 Corinthians 9:7 (ESV)
+
+Giving should not be an obligation or in reluctance, but out of a cheerful heart. While it is challenging, it is a blessing to give, and I hope it is the same posture you all as my supporters have.
 
 ## Looking ahead
 

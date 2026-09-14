@@ -247,7 +247,7 @@ itself; you never run a deploy command.
 
 **1. Create the repository**
 
-Go to [github.com/new](https://github.com/new). Name it `ministry-website` and set it to
+Go to [github.com/new](https://github.com/new). Name it `ministry-updates` and set it to
 **Public** (GitHub Pages requires a public repo on free accounts). Do not add a README,
 `.gitignore`, or license — this folder already has them.
 
@@ -257,7 +257,7 @@ Go to [github.com/new](https://github.com/new). Name it `ministry-website` and s
 git add .
 git commit -m "Initial site"
 git branch -M main
-git remote add origin https://github.com/YOUR-USERNAME/ministry-website.git
+git remote add origin https://github.com/YOUR-USERNAME/ministry-updates.git
 git push -u origin main
 ```
 
@@ -270,13 +270,13 @@ In the repository: **Settings** → **Pages** → under **Build and deployment**
 
 ```ts
 url:  'https://YOUR-USERNAME.github.io',   // your username, no path
-base: '/ministry-website',                 // must match the repo name exactly
+base: '/ministry-updates',                 // must match the repo name exactly
 ```
 
 Then `git add . && git commit -m "Set site URL" && git push`.
 
 Watch the **Actions** tab; the first build takes two or three minutes. Your site lands at
-`https://YOUR-USERNAME.github.io/ministry-website/`.
+`https://YOUR-USERNAME.github.io/ministry-updates/`.
 
 > **Why `base` matters.** GitHub serves a normal repository from a subfolder, and every
 > link on the site has to include it. If `base` does not match the repository name, the
@@ -307,7 +307,7 @@ to `'/'`, since a custom domain serves from the root.
    | Build command | `npm run build` |
    | Build output directory | `dist` |
 
-5. **Save and Deploy.** You get a URL like `https://ministry-website.pages.dev`.
+5. **Save and Deploy.** You get a URL like `https://ministry-updates.pages.dev`.
 6. In `src/config.ts` set `url` to that address and `base` to `'/'` — Cloudflare serves
    from the root, not a subfolder. Commit and push.
 

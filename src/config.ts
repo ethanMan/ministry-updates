@@ -54,7 +54,7 @@ export const site = {
    * and no trailing slash.
    *
    *   GitHub Pages  ->  'https://YOUR-USERNAME.github.io'
-   *   Cloudflare    ->  'https://ministry-website.pages.dev'
+   *   Cloudflare    ->  'https://ministry-updates.pages.dev'
    *   Own domain    ->  'https://yourministry.org'
    */
   url: 'https://ethanman.github.io',
@@ -64,16 +64,16 @@ export const site = {
    *
    * The one exception is GitHub Pages with a normal repository: GitHub serves
    * it at username.github.io/REPO-NAME/, so you must set this to the repository
-   * name, e.g. '/ministry-website'.
+   * name, e.g. '/ministry-updates'.
    *
    * Set it back to '/' if you name the repo YOUR-USERNAME.github.io, or once
    * you move to your own domain.
    */
-  base: '/ministry-website',
+  base: '/ministry-updates',
 
   /** Where partners can reach you. Leave any of these as an empty string to hide them. */
   contact: {
-    email: '',
+    email: 'ethan.man@smglobal.org',
     instagram: '',
     facebook: '',
   },
