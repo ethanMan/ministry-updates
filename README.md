@@ -38,8 +38,9 @@ Leave `npm run dev` running while you write — the browser updates as you save.
    title: 'Spring Update'
    date: 2026-03-14                      # YYYY-MM-DD
    summary: 'One or two sentences.'      # shown in the archive and link previews
-   cover: './team-photo.jpg'             # optional, see below
+   cover: '../photos/team-photo.jpg'     # optional, see below
    coverAlt: 'Our team outside the school'
+   coverCaption: 'Outside the school, the week we arrived.'
    tags: ['update', 'prayer']            # optional
    draft: false                          # true hides it from the live site
    ---
@@ -73,23 +74,55 @@ them to modern formats, and serves the right size for each visitor's screen. Alw
 write a short description in the square brackets for anyone using a screen reader.
 
 Photos are given more room than the text: they sit wider than the reading column so the
-faces in them are easy to see.
+faces in them are easy to see. An update can carry as many as you like — one per line,
+with a blank line above and below each one.
 
-To put several photos side by side, wrap them in a gallery. The blank lines around the
-images matter:
+#### Captions
+
+Put the caption in quotes after the path, still inside the brackets:
+
+```markdown
+![Kids at the day camp](../photos/day-camp.jpg 'The last morning of day camp.')
+```
+
+It is printed under the photo. The brackets and the quotes do two different jobs and
+it is worth filling in both: the brackets describe the photo for anyone who cannot see
+it, and the quotes are the caption everybody reads.
+
+If the caption has an apostrophe in it, use double quotes around the caption instead:
+`"Ethan's first week"`.
+
+#### Several photos side by side
+
+Wrap them in a gallery. The blank lines around the images matter:
 
 ```markdown
 <div class="gallery">
 
-![Kids at the day camp](../photos/day-camp.jpg)
-![The new roof](../photos/roof.jpg)
+![Kids at the day camp](../photos/day-camp.jpg 'The last morning of camp.')
+![The new roof](../photos/roof.jpg 'Finished, at last.')
 ![Tuesday night dinner](../photos/dinner.jpg)
 
 </div>
 ```
 
-A cover photo works the same way — `cover: '../photos/day-camp.jpg'` in the block at
-the top of the file.
+Two photos come out side by side, three across the page, four as two rows of two, and
+so on down to one column on a phone. Photos in a gallery are cropped to a common
+shape so the row stays level; a photo you do not want cropped is better on its own
+line. Captions work in here too, and can be left off individually.
+
+#### The photo at the top of an issue
+
+`cover` in the block at the top of the file, with its own two optional lines:
+
+```yaml
+cover: '../photos/day-camp.jpg'
+coverAlt: 'Children and leaders sitting in a circle on the grass'
+coverCaption: 'The last morning of day camp.'
+```
+
+`coverAlt` is the screen-reader description and `coverCaption` is the line printed
+underneath, the same split as everywhere else.
 
 ### Prayer requests
 

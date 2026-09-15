@@ -1,8 +1,10 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import { satteri } from '@astrojs/markdown-satteri';
 import sitemap from '@astrojs/sitemap';
 
 import { site } from './src/config.ts';
+import { markdownFigures } from './src/lib/figures.ts';
 
 // https://astro.build/config
 export default defineConfig({
@@ -12,6 +14,12 @@ export default defineConfig({
   base: site.base,
 
   integrations: [sitemap()],
+
+  markdown: {
+    // `satteri()` is the markdown engine Astro uses anyway; naming it here is
+    // just how you add a step to it. See src/lib/figures.ts for what this does.
+    processor: satteri({ hastPlugins: [markdownFigures()] }),
+  },
 
   // Resized photos are cached here so a rebuild only has to process the photos
   // that are new. This normally lives inside node_modules, which GitHub Actions

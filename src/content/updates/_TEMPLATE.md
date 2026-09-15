@@ -45,25 +45,48 @@ the gallery page, or both. Put the image file in there, then point at it with
 
 ![A short description of the photo for screen readers](../photos/my-photo.jpg)
 
-Photos are shown wider than the text, so they have room to breathe.
+Photos are shown wider than the text, so they have room to breathe. Put in as many
+as you like — one line each, with a blank line above and below.
 
-To put several photos side by side, wrap them in a gallery. Keep the blank lines
-above and below the images — they are what makes it work:
+### Captions
+
+Add a caption by putting it in quotes after the path, still inside the brackets:
+
+![A short description for screen readers](../photos/my-photo.jpg 'Printed under the photo.')
+
+The square brackets and the quotes do two different jobs, so it is worth writing
+both. The brackets describe the photo for anyone who cannot see it. The quotes are
+the caption everybody reads — a name, a place, what was happening.
+
+If the caption itself needs an apostrophe, use double quotes around it instead:
+`"Ethan's first week"`.
+
+### Several photos side by side
+
+Wrap them in a gallery. Keep the blank lines above and below the images — they are
+what makes it work:
 
 <div class="gallery">
 
-![First photo](../photos/my-photo.jpg)
-![Second photo](../photos/my-other-photo.jpg)
+![First photo](../photos/my-photo.jpg 'A caption for this one.')
+![Second photo](../photos/my-other-photo.jpg 'And one for this one.')
 
 </div>
 
-To add a cover photo at the top of the issue, add these two lines to the block at the
-very top of this file:
+Two photos come out side by side, three across, four as two rows of two. Captions
+work the same way in here.
+
+### A photo at the top of the issue
+
+Add these lines to the block at the very top of this file:
 
 ```
 cover: '../photos/my-photo.jpg'
 coverAlt: 'A short description of the photo'
+coverCaption: 'The line printed under it.'
 ```
+
+`coverCaption` is optional, the same as a caption anywhere else.
 
 A photo you want in an update but *not* on the gallery page should be named with a
 leading underscore — `_my-photo.jpg` — which keeps it off the gallery quietly.

@@ -22,7 +22,7 @@ export const getStaticPaths = (async () => {
 }) satisfies GetStaticPaths;
 
 const { entry, newer, older } = Astro.props;
-const { title, date, summary, cover, coverAlt, tags } = entry.data;
+const { title, date, summary, cover, coverAlt, coverCaption, tags } = entry.data;
 const { Content } = await render(entry);
 ---
 
@@ -58,6 +58,7 @@ const { Content } = await render(entry);
             sizes="(max-width: 920px) calc(100vw - 2.5rem), 880px"
             loading="eager"
           />
+          {coverCaption && <figcaption>{coverCaption}</figcaption>}
         </figure>
       )
     }

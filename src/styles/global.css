@@ -756,9 +756,12 @@ main {
 
    Body text stays at a comfortable reading measure, but photos are allowed to
    grow past it — centred on the column and capped at the viewport width.
+
+   Every photo written on its own line becomes a <figure>, caption or no
+   caption, so all of them are shaped and spaced by the rules below. See
+   src/lib/figures.ts.
    --------------------------------------------------------------------------- */
 
-/* Containers take the full wide measure... */
 .article__cover,
 .prose figure,
 .gallery {
@@ -768,17 +771,14 @@ main {
   transform: translateX(-50%);
 }
 
-/* ...while a bare image grows only as far as its own resolution allows. */
-.prose p > img {
-  max-width: min(var(--measure-wide), 100vw - 2.5rem);
-  margin-left: 50%;
-  transform: translateX(-50%);
-}
-
 .article__cover {
   margin-block: 2rem;
+}
+
+/* The rounding and the shadow sit on the photo rather than on the figure, so
+   that a caption underneath is outside them. */
+.article__cover img {
   border-radius: var(--radius-lg);
-  overflow: hidden;
   background: var(--bg-sunken);
   box-shadow: var(--shadow);
 }
@@ -840,15 +840,28 @@ main {
 }
 
 .prose figure {
-  margin: 2rem 0;
+  margin-block: 2rem;
 }
 
-.prose figcaption {
+/* The figure owns the space around the photo now, and centres a photo that is
+   narrower than the column it sits in. */
+.prose figure > img {
+  margin-block: 0;
+  margin-inline: auto;
+}
+
+/* The line under a photo. Capped at the reading measure so a long caption
+   wraps into a readable block instead of one thin line across the page. */
+.prose figcaption,
+.article__cover figcaption {
   font-family: var(--font-ui);
   font-size: 0.875rem;
-  color: var(--text-faint);
+  line-height: 1.5;
+  color: var(--text-soft);
   text-align: center;
-  margin-top: 0.6rem;
+  text-wrap: pretty;
+  max-width: var(--measure);
+  margin: 0.7rem auto 0;
 }
 
 /* ---------------------------------------------------------------------------
@@ -887,36 +900,44 @@ main {
    See src/content/updates/_TEMPLATE.md for how to write one.
    --------------------------------------------------------------------------- */
 
-.gallery,
-.gallery p {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
-  gap: 0.9rem;
-}
-
 .gallery {
+  display: grid;
+  /* As many photos across as fit at 220px or wider, then wrap. Two photos sit
+     side by side, three across, four as two rows of two — no counting needed. */
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+  /* More room between rows than between columns, so a caption on one row does
+     not crowd the photo on the next. */
+  gap: 1.25rem 0.9rem;
   margin-block: 2rem;
+  /* Photos line up along their tops, so captions of different lengths do not
+     drag their neighbours out of line. */
+  align-items: start;
 }
 
-/* Markdown wraps consecutive images in a paragraph, so the paragraph has to
-   become a grid too rather than a block in the middle of one. */
-.gallery p {
-  width: 100%;
+/* Each photo in a gallery is one cell of the grid, so it gives up the
+   centring and the breathing room a photo standing on its own gets. */
+.prose .gallery figure {
+  width: auto;
+  max-width: none;
   margin: 0;
-  grid-column: 1 / -1;
+  transform: none;
 }
 
-.prose .gallery img,
-.prose .gallery p > img {
+/* One shape for every photo in a gallery, whatever shape it arrived in —
+   otherwise a portrait beside a landscape makes the row lurch. */
+.prose .gallery img {
   width: 100%;
   max-width: none;
   aspect-ratio: 4 / 3;
   object-fit: cover;
   border-radius: var(--radius);
   margin: 0;
-  margin-left: 0;
-  transform: none;
   box-shadow: var(--shadow-sm);
+}
+
+.prose .gallery figcaption {
+  font-size: 0.8125rem;
+  margin-top: 0.5rem;
 }
 
 /* ---------------------------------------------------------------------------

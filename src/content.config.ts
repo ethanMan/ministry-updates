@@ -26,6 +26,8 @@ const updates = defineCollection({
       cover: image().optional(),
       /** Describes the cover photo for screen readers and when images fail to load. */
       coverAlt: z.string().optional(),
+      /** Optional line printed under the cover photo, for everyone to read. */
+      coverCaption: z.string().optional(),
       /** Optional tags like ["prayer", "travel"] for grouping issues. */
       tags: z.array(z.string()).default([]),
       /** Set to true to keep an issue out of the site while you work on it. */
