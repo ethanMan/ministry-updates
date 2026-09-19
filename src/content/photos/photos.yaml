@@ -30,22 +30,37 @@
 #
 # Once there are a lot of photos, subfolders work: put the file in
 # src/content/photos/2026/ and list it as '2026/retreat.jpg'.
-'2026-04-29-grad.jpg':
-  date: 2026-04-29
-  caption: 'the 2025-26 Northeastern SOONjangs after Northeastern''s commencement.'
-  alt: 'The Northeastern SOONjangs at Krentzman Quad.'
-
-'2026-06-24-kcon.jpg':
-  date: 2026-06-24
-  caption: 'The stage at KCCC''s Summer Conference.'
-  alt: 'The stage at KCCC''s Summer Conference, with a large screen and a few people on it.'
+'2026-09-11-class28.jpg':
+  date: 2026-09-11
+  caption: 'The 28th class of GCTC.'
+  alt: 'The 28th class of GCTC, sitting on a couch.'
 
 '2026-06-26-kcon-team.jpg':
   date: 2026-06-26
   caption: 'The KCCC Summer Conference team.'
   alt: 'The KCCC Summer Conference team, standing in front of a large decoration.'
 
-'2026-09-11-class28.jpg':
-  date: 2026-09-11
-  caption: 'The 28th class of GCTC.'
-  alt: 'The 28th class of GCTC, sitting on a couch.'
+'2026-06-24-kcon.jpg':
+  date: 2026-06-24
+  caption: 'The stage at KCCC''s Summer Conference.'
+  alt: 'The stage at KCCC''s Summer Conference, with a large screen and a few people on it.'
+
+'2026-06-05-indo.jpg':
+  date: 2026-06-05
+  caption: 'Walking back after evangelizing on campus during Summer Missions in Indonesia.'
+  alt: 'Students next to a train in Indonesia'
+
+'2026-04-29-grad.jpg':
+  date: 2026-04-29
+  caption: 'the 2025-26 Northeastern SOONjangs after Northeastern''s commencement.'
+  alt: 'The Northeastern SOONjangs at Krentzman Quad.'
+
+'2026-04-19-ekim.jpg':
+  date: 2026-04-19
+  caption: 'Me and Ethan Kim, one of my best friends and another SOONjang serving with SOON.'
+  alt: 'Me and Ethan Kim standing next to a cross.'
+
+'2026-02-21-retreat.jpg':
+  date: 2026-02-21
+  caption: 'Prayer over the Northeastern DPDs at SOON''s 2026 Spring Retreat'
+  alt: 'A circle of prayer during SOON''s Spring Retreat'

@@ -28,6 +28,36 @@ const updates = defineCollection({
       coverAlt: z.string().optional(),
       /** Optional line printed under the cover photo, for everyone to read. */
       coverCaption: z.string().optional(),
+      /**
+       * What you had on repeat this season. Each song needs a title and at
+       * least one link — both where you have them, so that the partners
+       * listening on Spotify and the ones on Apple Music can each play it
+       * without hunting for it.
+       */
+      songs: z
+        .array(
+          z
+            .object({
+              /** The name of the track. */
+              title: z.string(),
+              /** Who it is by. */
+              artist: z.string().optional(),
+              /**
+               * The album cover. Put the file in src/content/songs/ and point
+               * at it with '../songs/…'. `npm run song` fetches it for you.
+               */
+              art: image().optional(),
+              /** Full link to the track on Spotify. */
+              spotify: z.url().optional(),
+              /** Full link to the track on Apple Music. */
+              appleMusic: z.url().optional(),
+            })
+            .refine((song) => song.spotify || song.appleMusic, {
+              message:
+                'A song needs a spotify link, an appleMusic link, or (best) both.',
+            }),
+        )
+        .default([]),
       /** Optional tags like ["prayer", "travel"] for grouping issues. */
       tags: z.array(z.string()).default([]),
       /** Set to true to keep an issue out of the site while you work on it. */

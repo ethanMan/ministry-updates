@@ -37,6 +37,65 @@ the letter. Keep the blank lines above and below what is inside:
 You do not need to sign the bottom — your sign-off from `src/config.ts` is added
 to every update automatically.
 
+## Songs of the season
+
+A song is printed at the foot of the letter, just above your sign-off, with its
+album cover beside it.
+
+Start by searching for it:
+
+```
+npm run song "goodness of god bethel"
+```
+
+Pick your song from the list it prints. It saves the album cover into
+`src/content/songs/` and hands you the lines to paste into the block at the very
+top of this file:
+
+```
+songs:
+  - title: 'Goodness of God'
+    artist: 'Bethel Music'
+    art: '../songs/goodness-of-god.jpg'
+    # spotify: 'paste the Spotify link here, then delete the #'
+    appleMusic: 'https://music.apple.com/us/album/goodness-of-god/1748012530?i=1748012533'
+```
+
+The Spotify line is the one thing left to fill in, because Spotify's catalogue
+needs an account to search and Apple's does not. Open the song in Spotify, hit
+the `...` menu, choose **Share → Copy Song Link**, paste it in, and delete the `#`
+from the front of the line.
+
+No single player works on both services — a Spotify player shows an Apple Music
+listener nothing — so each song is linked out to both instead. Whoever is reading
+taps the one they already pay for, and it opens in their own app, signed in, with
+the whole song rather than a thirty-second sample. One of the two links is enough
+if you cannot get the other, but both is the point.
+
+For more than one song, run `npm run song` again and add the second `- title:`
+block underneath the first, indented the same way:
+
+```
+songs:
+  - title: 'Goodness of God'
+    artist: 'Bethel Music'
+    art: '../songs/goodness-of-god.jpg'
+    spotify: 'https://open.spotify.com/track/...'
+    appleMusic: 'https://music.apple.com/us/album/...'
+  - title: 'Way Maker'
+    artist: 'Sinach'
+    art: '../songs/way-maker.jpg'
+    spotify: 'https://open.spotify.com/track/...'
+    appleMusic: 'https://music.apple.com/us/album/...'
+```
+
+Every line except `title` is optional — a song with no cover simply prints
+without one. If the title or the artist has an apostrophe in it, it takes double
+quotes instead of single — `"Firm Foundation (He Won't)"` — the same as with a
+photo caption, and `npm run song` already writes it that way for you.
+
+Leave the `songs:` lines out entirely for an issue with no song.
+
 ## Adding photos
 
 Every photo lives in one place — `src/content/photos/` — whether it is used here, on

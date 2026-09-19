@@ -211,6 +211,51 @@ Once there are a lot of photos, subfolders work too — put the file in
 If you ever do want a photo from outside the folder, give its path:
 `'~/assets/portrait.jpg'`, where `~` means the `src` folder.
 
+### A photo on the About page
+
+Updates are markdown, so a photo there is one line. The About page is a page rather
+than an update, so it takes two steps instead — but it reads the photos out of the
+same folder, and the result looks exactly the same.
+
+First, name the photo at the top of `src/pages/about.astro`, in the block between the
+two `---` lines, alongside the import that is already there:
+
+```js
+import grad from '~/content/photos/2026-04-29-grad.jpg';
+```
+
+The word after `import` is yours to choose; it is how you refer to the photo further
+down. Then, wherever you want it to appear inside `<div class="prose">`:
+
+```astro
+<figure class="figure--text-width">
+  <Image
+    src={grad}
+    alt="The Northeastern SOONjangs at Krentzman Quad."
+    width={1360}
+    widths={[480, 680, 1020, 1360, 1700]}
+    sizes="(max-width: 720px) calc(100vw - 2.5rem), 680px"
+  />
+  <figcaption>Commencement with the 2025–26 Northeastern SOONjangs.</figcaption>
+</figure>
+```
+
+Copy the four number lines as they are — they are what stops a visitor on a phone
+downloading a photo sized for a desktop screen, and they are the same for any photo
+in the body of the page. Only `src`, `alt` and the caption change. Drop the
+`<figcaption>` line for a photo that does not need a caption.
+
+`figure--text-width` lines the photo up with the words, starting and ending exactly
+where the text does. Leaving the class off gives you the other option — the photo
+spreading wider than the column, which is what photos in an update do. If you take it
+off, widen the numbers to match: `width={1760}`, `widths={[640, 880, 1320, 1760, 2200]}`
+and `sizes="(max-width: 920px) calc(100vw - 2.5rem), 880px"`. The `sizes` line has to
+agree with how wide the photo actually ends up, or the browser fetches the wrong size.
+
+The caption is written here rather than read from `photos.yaml` on purpose: the line
+that suits a photo in the gallery is rarely the line that suits it in the middle of a
+story, and this is the same way updates do it.
+
 ### How the collage works
 
 Every photo in a row is drawn at the same height and keeps its own shape, so the
@@ -220,11 +265,20 @@ size of every photo is known — so the browser gets a finished layout and nothi
 shuffles around as the photos load. The last row usually cannot be filled, so it
 simply stops short rather than stretching its photos to reach the edge.
 
+A row holding a tall photo takes fewer photos than a row of wide ones, and comes out
+taller to match. Otherwise a portrait standing next to two landscapes would be a
+sliver: everything in a row shares one height, so the only way to give a tall photo
+some width is to give the whole row more height. That is why the rows down the page
+are not all the same depth.
+
 On a phone the rows would be too small to see, so below 640px wide the collage
 becomes a single column, each photo at its full shape.
 
-To fit more or fewer photos per row, change the `target` in `packIntoRows` in
-`src/lib/photos.ts`. Higher means smaller photos and more of them per row.
+Two numbers in `packIntoRows` in `src/lib/photos.ts` set all of this. `target` is how
+full an ordinary row gets — higher means smaller photos and more of them per row.
+`minShare` is the narrowest any photo is allowed to be drawn, as a share of the page:
+at `0.25`, nothing is ever thinner than a quarter of the collage, unless a photo is so
+tall that honouring that would need a row more than twice the usual height.
 
 ### Large galleries
 
@@ -248,8 +302,9 @@ remove giving from the site.
 A few other spots:
 
 - **`src/assets/home-banner.jpg`** — the wide photo at the top of the home page.
-- **`src/assets/portrait.jpg`** — the photo of you beside the note and on the About
-  page. Delete it to leave it out.
+- **`src/assets/portrait.jpg`** — the photo of you beside the note on the home page and
+  beside the opening lines on the About page. Both show it as a square, so a square photo
+  — or one where you are centred in the frame — works best. Delete it to leave it out.
 - **`src/pages/about.astro`** — the About page. Replace the placeholder text with your
   own story.
 - **`src/styles/global.css`** — the look of the site. The block of settings at the very

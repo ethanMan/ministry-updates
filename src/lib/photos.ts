@@ -162,52 +162,97 @@ export async function getPhotos(): Promise<Photo[]> {
 }
 
 /**
+ * How full a row is allowed to get, given the shape of the narrowest photo in
+ * it.
+ *
+ * A row's height is the width available divided by the sum of its photos'
+ * ratios, so each photo ends up taking `its ratio / that sum` of the width. Let
+ * the sum run all the way to `target` and a tall portrait — a ratio of about
+ * 0.67 against a landscape's 1.5 — comes out as a sliver barely a seventh of
+ * the page wide, dwarfed by whatever it is standing next to.
+ *
+ * So the row stops filling early when it is holding something narrow: the sum
+ * cannot pass `ratio / minShare`, which is exactly the point where that photo
+ * has shrunk to `minShare` of the width. Fewer photos in the row means a taller
+ * row, and a taller row is a wider portrait.
+ *
+ * The floor of `target / 2` is the other side of that bargain. A very tall
+ * photo could otherwise demand a row three or four times the usual height and
+ * take over the page on its own, so past a point it is left to be narrow.
+ */
+function rowTarget(narrowest: number, target: number, minShare: number): number {
+  return Math.min(target, Math.max(target / 2, narrowest / minShare));
+}
+
+/**
  * Packs photos into rows that each fill the page width exactly, in the order
  * given — so the collage still reads newest to oldest, left to right.
  *
  * Every photo in a row is drawn at the same height, and a row's height is the
  * width available divided by the sum of the photos' ratios. So a row is "full"
  * once those ratios add up to `target`: at 1080px wide, a target of 4.5 lands
- * rows around 240px tall. A wide panorama fills a row on its own; four tall
- * portraits fit side by side.
+ * rows around 240px tall. A wide panorama fills a row on its own; three
+ * landscape photos sit side by side.
+ *
+ * Rows holding a tall photo are the exception, and stop short of `target` so
+ * that photo still gets `minShare` of the width — a quarter of the page by
+ * default. Those rows come out taller than the ones around them, which is the
+ * point: a portrait needs the height to be worth looking at.
  *
  * Photos are never cropped — each one is drawn at its own shape, and the row
  * comes out flush because the heights, not the widths, are what match.
  */
-export function packIntoRows(photos: Photo[], target = 4.5): PhotoRow[] {
+export function packIntoRows(
+  photos: Photo[],
+  target = 4.5,
+  minShare = 0.25,
+): PhotoRow[] {
   const rows: PhotoRow[] = [];
   let current: Photo[] = [];
   let sum = 0;
+  /** The narrowest shape in the row so far, which is what sets its limit. */
+  let narrowest = Infinity;
+
+  /** Closes the row off at the width it covers exactly. */
+  function finish() {
+    rows.push({ photos: current, ratioSum: sum, divisor: sum });
+    current = [];
+    sum = 0;
+    narrowest = Infinity;
+  }
 
   for (const photo of photos) {
-    // Adding this photo may overshoot the target so far that the row ends up
+    // The limit is worked out as though this photo were already in the row,
+    // because a tall photo joining a row of wide ones tightens it — often to
+    // less than the row already holds, which ends the row here.
+    const limit = rowTarget(Math.min(narrowest, photo.ratio), target, minShare);
+
+    // Adding this photo may overshoot the limit so far that the row ends up
     // noticeably shorter than its neighbours. When stopping one photo earlier
-    // lands closer to the target, do that instead.
-    if (current.length > 0 && sum + photo.ratio > target) {
-      const overshoot = sum + photo.ratio - target;
-      const undershoot = target - sum;
-      if (overshoot > undershoot) {
-        rows.push({ photos: current, ratioSum: sum, divisor: sum });
-        current = [];
-        sum = 0;
-      }
+    // lands closer to the limit, do that instead.
+    if (current.length > 0 && sum + photo.ratio > limit) {
+      const overshoot = sum + photo.ratio - limit;
+      const undershoot = limit - sum;
+      if (overshoot > undershoot) finish();
     }
 
     current.push(photo);
     sum += photo.ratio;
+    narrowest = Math.min(narrowest, photo.ratio);
 
-    if (sum >= target) {
-      rows.push({ photos: current, ratioSum: sum, divisor: sum });
-      current = [];
-      sum = 0;
-    }
+    if (sum >= rowTarget(narrowest, target, minShare)) finish();
   }
 
-  // Whatever is left over cannot fill a row. Pad the divisor up to the target
-  // so these last photos keep the height of the rows above them; the row simply
-  // stops short of the right-hand edge instead of stretching to reach it.
+  // Whatever is left over cannot fill a row. Pad the divisor up to the limit
+  // so these last photos keep the height a full row of the same photos would
+  // have had; the row simply stops short of the right-hand edge instead of
+  // stretching to reach it.
   if (current.length > 0) {
-    rows.push({ photos: current, ratioSum: sum, divisor: Math.max(sum, target) });
+    rows.push({
+      photos: current,
+      ratioSum: sum,
+      divisor: Math.max(sum, rowTarget(narrowest, target, minShare)),
+    });
   }
 
   return rows;

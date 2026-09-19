@@ -16,10 +16,12 @@
   /* Accent — a gentle sage green. Swap this one value to rebrand the site. */
   --accent: #2f7d5f;
   --accent-hover: #256349;
+  /* The accent poured thin, for the prayer panel inside a letter: enough tint
+     to read as a panel on the cream page, and the same hue as the sage
+     everywhere else, so the panel belongs to the palette instead of
+     introducing a colour of its own. */
   --accent-soft: #eaf3ee;
-
-  /* A second, honey-warm tone used sparingly for gentle background washes. */
-  --accent-warm: #faf2e4;
+  --accent-soft-edge: #c6dccf;
 
   --radius: 14px;
   --radius-lg: 22px;
@@ -524,12 +526,74 @@ main {
   grid-template-columns: 1fr;
 }
 
-/* The portrait on the About page — a photo beside the story, not a hero. */
+/* ---------------------------------------------------------------------------
+   The opening of the About page
+
+   The same shape as the note above, one size up: the portrait beside the first
+   couple of paragraphs rather than sitting alone between the heading and the
+   story, which left it looking parked there with a gap on either side.
+   --------------------------------------------------------------------------- */
+
+.about__intro {
+  display: grid;
+  grid-template-columns: 12rem 1fr;
+  gap: clamp(1.5rem, 3vw, 2.25rem);
+  /* Deliberately not "start": the photo is stretched to the height of the words
+     beside it (see .about__portrait), so both columns end on the same line and
+     the opening reads as one block rather than a photo with a gap under it. */
+  align-items: stretch;
+  /* The story below opens with an <h2>, whose 2em top margin collapses through
+     into this one — so this value is the gap only while it is the larger. */
+  margin-bottom: 2.25rem;
+  /* Matches the leading of the story it runs into. */
+  line-height: 1.68;
+}
+
+/* Narrow enough that a column of text beside the photo would be a column of
+   two or three words, so the photo takes its own line. */
+@media (max-width: 560px) {
+  .about__intro {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+}
+
+/* Without a photo the opening simply runs the full width. */
+.about__intro--no-portrait {
+  grid-template-columns: 1fr;
+}
+
+.about__intro p:last-child {
+  margin-bottom: 0;
+}
+
+/* Rounded and lifted off the page the way photos inside an update are.
+   The <Image> in about.astro asks for 288px because that is the tallest this
+   box can get, and a cropped photo has to cover the tallest case — so raising
+   the bounds below means raising that number too.
+   Height is left to the grid: the photo fills its column, which makes it as
+   tall as the paragraphs alongside however long they run, and the square
+   original is cropped to fit rather than squashed. The bounds stop it becoming
+   a squat band under a one-line opening or a tall strip beside a long one —
+   within them the two bottom edges always line up. */
 .about__portrait {
-  width: min(16rem, 100%);
+  width: 12rem;
+  max-width: 100%;
+  height: 100%;
+  min-height: 11rem;
+  max-height: 18rem;
+  object-fit: cover;
   border-radius: var(--radius-lg);
-  margin-block: 1.75rem;
   background: var(--bg-sunken);
+  box-shadow: var(--shadow);
+}
+
+/* Stacked, there is nothing to match its height to, so it goes back to square. */
+@media (max-width: 560px) {
+  .about__portrait {
+    height: auto;
+    aspect-ratio: 1;
+  }
 }
 
 .letter__greeting {
@@ -771,6 +835,29 @@ main {
   transform: translateX(-50%);
 }
 
+/* Holds a photo back to the width of the words, lining its edges up with the
+   start and end of the text rather than spreading past them. Add it to the
+   figure by hand — <figure class="figure--text-width"> — on a page written as
+   a page. Photos in an update are markdown, which has nowhere to put a class,
+   so they all get the wider treatment above.
+
+   A photo used this way wants a smaller `sizes` on its <Image> to match: see
+   the one on the About page. */
+.prose figure.figure--text-width {
+  width: auto;
+  /* Less air than the 2rem a wider photo gets. A photo that spreads past the
+     text is its own event on the page and needs the room; one that lines up
+     with the words is part of the column, and reads as a gap in the middle of
+     the story if it is pushed as far away from them. */
+  margin-block: 1.5rem;
+  /* Browsers give a <figure> a 40px indent on both sides of their own accord.
+     The rule above replaces the left one and pins the right one down with an
+     exact width, so it never shows — but here the width is the column itself,
+     and a leftover 40px would hold the photo short of the text beside it. */
+  margin-inline: 0;
+  transform: none;
+}
+
 .article__cover {
   margin-block: 2rem;
 }
@@ -865,16 +952,32 @@ main {
 }
 
 /* ---------------------------------------------------------------------------
-   Prayer requests — set apart from the rest of the letter, gently.
+   Prayer requests.
+
+   This is the part of the letter people are meant to act on, so it is a panel
+   of its own rather than one more list in the flow of the page.
    See src/content/updates/_TEMPLATE.md for how to write one.
    --------------------------------------------------------------------------- */
 
 .prayer {
-  background: var(--accent-warm);
-  border: 1px solid color-mix(in srgb, #c9a227 18%, transparent);
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-soft-edge);
+  /* One firm sage mark down the side. With the panel tinted as quietly as it
+     is, this is what the eye catches on the way past. */
+  border-left: 3px solid var(--accent);
   border-radius: var(--radius);
-  padding: 1.35rem 1.6rem;
-  margin-block: 2rem;
+  box-shadow: var(--shadow-sm);
+  padding: 1.6rem 1.75rem;
+  margin-block: 2.5rem;
+}
+
+/* Reaches a little past the words on either side, roughly its own padding, so
+   the requests inside keep the left edge of the letter while the panel itself
+   steps outside it. */
+.prose .prayer {
+  width: min(calc(var(--measure) + 3.5rem), 100vw - 2.5rem);
+  margin-left: 50%;
+  transform: translateX(-50%);
 }
 
 .prose .prayer > :first-child {
@@ -885,14 +988,179 @@ main {
   margin-bottom: 0;
 }
 
+/* Smaller than the section headings of the letter, because it belongs to the
+   panel rather than to the page — and in the accent, which is the only colour
+   the words anywhere on the site are set in. */
 .prayer h2,
 .prayer h3 {
   font-size: 1.05rem;
-  margin-bottom: 0.75rem;
+  color: var(--accent-hover);
+  margin-bottom: 0.9rem;
 }
 
 .prayer ul {
   margin-bottom: 0;
+  /* Hangs the markers in the padding so the words keep the letter's left edge. */
+  padding-left: 1.2rem;
+}
+
+.prayer li::marker {
+  color: var(--accent);
+}
+
+/* Each request is its own thought, so they get more air than a normal list. */
+.prayer li + li {
+  margin-top: 0.7rem;
+}
+
+/* ---------------------------------------------------------------------------
+   Songs of the season.
+
+   No panel of its own: a rule and some air. The prayer requests are the part
+   of the letter to act on and they keep the only box in it — a second box
+   underneath competed with them, and sat half empty besides. Left at the
+   letter's own width, the song reads as the last note of the page.
+   See src/content/updates/_TEMPLATE.md for how to write one.
+   --------------------------------------------------------------------------- */
+
+.songs {
+  border-top: 1px solid var(--border);
+  padding-top: 1.6rem;
+  /* Roomier below than the sign-off asks for on its own, which otherwise sits
+     up against the links as though it were part of them. */
+  margin: 3rem 0 2.75rem;
+}
+
+/* A label on the section rather than another heading of the letter, so it is
+   set small and spaced in the UI face instead of the serif of the page. */
+.prose .songs__heading {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin: 0 0 1.1rem;
+}
+
+/* Scoped to .prose so it outranks the indent .prose ul gives the bullet lists
+   in the body of a letter — this list has no markers to hang. */
+.prose .songs__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Cover on the left, the title and the two buttons stacked beside it. Songs
+   with no cover simply have nothing in the first column. */
+.song {
+  display: flex;
+  align-items: center;
+  gap: 0.95rem;
+}
+
+/* A hairline between songs when there is more than one, so a title and the
+   artist above it do not run together. */
+.song + .song {
+  margin-top: 1.1rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--border);
+}
+
+/* Small enough to stay an illustration rather than become the loudest thing in
+   the letter — a record sleeve on the page, not a hero image. The rounding is
+   the tighter one: at this size --radius reads as a circle. */
+/* Sized to stand level with the title, artist and links stacked beside it,
+   which measure 89px together at the sizes above.
+
+   It is a fixed square rather than one derived from their height, because
+   deriving it does not work: flex settles an item's width before the row's
+   height is known, so a stretched cover with a 1:1 ratio keeps the width of
+   its minimum and grows only downwards — a portrait crop of a square sleeve.
+   A square that matches the common case is the better trade, since a cropped
+   cover reads as a mistake and a slightly short one does not. */
+.prose .song__art {
+  flex: none;
+  width: 88px;
+  height: 88px;
+  object-fit: cover;
+  border-radius: 8px;
+  /* Covers that are mostly white need an edge or they float without a shape. */
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  /* Overrides the wide margins .prose puts on every other image in a letter. */
+  margin: 0;
+}
+
+.song__body {
+  min-width: 0;
+}
+
+.song__name {
+  margin: 0;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* Kept on the same line as the title where there is room, and dropped under it
+   on a narrow screen, which is what the long titles need. */
+/* On its own line under the title, which is how a track is listed everywhere
+   else a person meets one — in a music app, on the back of a record. */
+.song__artist {
+  margin: 0.15rem 0 0;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--text-soft);
+}
+
+.song__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.6rem 0 0;
+}
+
+/* A quiet grey pill carrying each service's own logo. The logo is the only
+   colour in it, which is what makes the pair readable at a glance without the
+   panel turning into two brand-coloured buttons. */
+.song__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  background: var(--bg-sunken);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  /* Tighter on the left, where the logo already carries its own space. */
+  padding: 0.36rem 0.8rem 0.36rem 0.62rem;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+/* Darkens rather than lightens on hover: the pill already sits on white, so
+   going paler would make it disappear under the cursor. */
+.song__link:hover {
+  background: color-mix(in srgb, var(--border) 55%, var(--bg-sunken));
+  border-color: var(--text-faint);
+}
+
+.song__logo {
+  flex: none;
+}
+
+.song__logo--spotify {
+  color: #1db954;
+}
+
+.song__logo--appleMusic {
+  color: #fa243c;
 }
 
 /* ---------------------------------------------------------------------------

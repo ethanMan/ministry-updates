@@ -5,6 +5,12 @@ import Signature from '~/components/Signature.astro';
 import { site } from '~/config';
 import { withBase } from '~/lib/url';
 
+// Photos on this page are imported by name, one line each. They live in the
+// same folder as every other photo on the site, so a photo used here can be in
+// the gallery and in an update as well, stored once.
+import grad from '~/content/photos/2026-04-29-grad.jpg';
+import indo from '~/content/photos/2026-06-05-indo.jpg'
+
 const portraitFiles = import.meta.glob<{ default: ImageMetadata }>(
   '../assets/portrait.{jpg,jpeg,png,webp,avif}',
   { eager: true },
@@ -12,63 +18,114 @@ const portraitFiles = import.meta.glob<{ default: ImageMetadata }>(
 const portrait = Object.values(portraitFiles)[0]?.default;
 ---
 
-<BaseLayout title="About" description={`About ${site.name}.`}>
+<BaseLayout
+  title="About"
+  description={`About ${site.name}.`}
+  image={portrait?.src}
+>
   <article class="article">
     <header class="article__header">
       <h1>About me</h1>
-      <p class="article__summary">A little about who I am and what I am doing here.</p>
+      <p class="article__summary">
+        My story, my vision, and what's next!
+      </p>
     </header>
 
-    {
-      portrait && (
-        <Image
-          class="about__portrait"
-          src={portrait}
-          alt={site.portraitAlt}
-          width={576}
-          widths={[288, 576, 864]}
-          sizes="(max-width: 400px) calc(100vw - 2.5rem), 288px"
-          loading="eager"
-        />
-      )
-    }
+    {/* The photo sits beside the opening lines rather than on its own between
+        the heading and the story — the same idea as the note on the home page,
+        so there is a face to go with the first words you read. Write the story
+        itself below, starting at "How I got here". */}
+    <div class:list={['about__intro', !portrait && 'about__intro--no-portrait']}>
+      {
+        portrait && (
+          <Image
+            class="about__portrait"
+            src={portrait}
+            alt={site.portraitAlt}
+            width={288}
+            densities={[1, 2]}
+            loading="eager"
+          />
+        )
+      }
+
+      <div>
+        <p>
+          Thank you for visiting this site! I’m Ethan, and I’m currently training to be full-time campus staff with SOON Movement Global. This is a place where I can share what God is doing through this season with the people who pray for and support me.
+        </p>
+        <p>
+          I hope this site can be an encouragement to you, while also serving as a memorial stone of God’s faithfulness and grace in my life.
+        </p>
+      </div>
+    </div>
 
     <div class="prose">
-      {/* Replace everything below with your own story. */}
-      <p>
-        Hello! Thank you for visiting this site! I'm Ethan, and this is where I write to
-        the people who pray for and support me.
-      </p>
-
       <h2>How I got here</h2>
+      {/* A photo written like this matches the ones in an update: a <figure>
+          with the caption under it. "figure--text-width" keeps it to the width
+          of the words either side of it; drop that class and it spreads wider
+          than the text, the way the photos in an update do.
+
+          `sizes` mirrors the CSS that lays it out — the text column, 680px at
+          its widest — so the browser does not download a photo far larger than
+          it shows. Change one and change the other. */}
+      <figure class="figure--text-width">
+        <Image
+          src={grad}
+          alt="The Northeastern SOONjangs at Krentzman Quad."
+          width={1360}
+          widths={[480, 680, 1020, 1360, 1700]}
+          sizes="(max-width: 720px) calc(100vw - 2.5rem), 680px"
+        />
+        <figcaption>
+          The 2025–26 Northeastern SOONjangs.
+        </figcaption>
+      </figure>
       <p>
-        Write a few paragraphs about how you came to this work, the people you are with,
-        and what you are praying toward. It does not need to be polished — the people
-        reading it already know you.
+        SOON Movement has been an incredible blessing in my life. After a difficult first year of college, God met me through SOON in my second year and showed me that His love and a life with Him were greater than anything I could chase on my own.
+      </p>
+      <p>
+        After recommitting my life to Christ, I was given many opportunities throughout college to serve Him, pursue Him, and love others. As graduation approached and I began considering what came next, God revealed a deep desire in my heart to continue reaching college students in His name, investing in His kingdom, and empowering them to go and fulfill the Great Commission.
+      </p>
+      <p>
+        After a season of wrestling with this calling and surrounding myself with people who faithfully supported me in prayer, I ultimately decided to take a step of faith and pursue full-time ministry with SOON.
       </p>
 
       <h2>My vision</h2>
+      <figure class="figure--text-width">
+        <Image
+          src={indo}
+          alt="Two students next to a train in Indonesia"
+          width={1360}
+          widths={[480, 680, 1020, 1360, 1700]}
+          sizes="(max-width: 720px) calc(100vw - 2.5rem), 680px"
+        />
+        <figcaption>
+          Summer Missions is one way students are sent to share the Gospel.
+        </figcaption>
+      </figure>
       <p>
-        God has blessed me with a unique story, saving me from a darkness that many college students find themselves in now. God has blessed me with a desire to reach them in His name, winning them to Christ, building them as disciples, and sending them beyond to fulfill the Great Commission and live as faithful disciples wherever they go.
+        God has given me a story of redemption that I believe He can use to reach students who are searching for something greater than what the world offers.
       </p>
-
-      <h2>What I am asking prayer for</h2>
       <p>
-        List the things you would most like your partners praying over. In my experience
-        this is the section people come back to.
+        I believe that the college students of today will be the future leaders of the world. My desire is to reach students in His name, invest in them throughout this formative and often difficult season, lead them to Christ, and send them out to change the world.
+      </p>
+      <p>
+        I want to see students transformed by the Gospel and sent out to bring hope to the people and places God places before them.
       </p>
 
       <h2>Staying in touch</h2>
       <p>
-        I post new updates on the <a href={withBase('/updates')}>updates page</a>.
-        Bookmark it, or pass the link along to anyone who wants to follow along.
+        I hope to post regular updates on the <a href={withBase('/updates')}>updates page</a>, so feel free to bookmark it and check back from time to time!
+      </p>
+      <p>
+        Each update will include ways you can pray for me and what God is doing in this season. Your prayers are one of the greatest ways you can support me, and I’m incredibly grateful for them.
       </p>
 
       {
         site.contact.email && (
           <p>
-            You can also write to me directly at{' '}
-            <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>.
+            If you have any prayer requests, questions, or just want to reach out, please contact me at <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>.
           </p>
         )
       }
