@@ -1561,12 +1561,14 @@ main {
   z-index: 1;
   display: grid;
   place-items: center;
+  /* A button comes with a little padding of its own, which would leave the mark
+     inside it centred in a box that is not the circle. */
+  padding: 0;
   border: 0;
   border-radius: 999px;
   background: rgb(255 255 255 / 0.1);
   color: #fff;
   cursor: pointer;
-  line-height: 1;
   transition: background 0.15s ease;
 }
 
@@ -1581,12 +1583,26 @@ main {
   outline-offset: 2px;
 }
 
+/* The cross and the arrows are drawn, not typed — see the note in
+   PhotoGrid.astro. `place-items: center` above puts this box dead centre, and
+   because the shape is centred inside the box in turn, the mark itself lands in
+   the middle of the circle rather than a couple of pixels below it. */
+.lightbox__icon {
+  width: 60%;
+  height: 60%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  /* Softened ends and corners, to sit with the rounded shapes everywhere else. */
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .lightbox__close {
   top: 1rem;
   right: 1rem;
   width: 2.5rem;
   height: 2.5rem;
-  font-size: 1.6rem;
 }
 
 .lightbox__step {
@@ -1594,7 +1610,6 @@ main {
   transform: translateY(-50%);
   width: 3rem;
   height: 3rem;
-  font-size: 2rem;
 }
 
 .lightbox__step--prev {

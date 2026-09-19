@@ -118,14 +118,30 @@ const laidOut = await Promise.all(
   }
 </div>
 
-{/* One dialog reused for every photo, rather than one per photo. */}
+{/* One dialog reused for every photo, rather than one per photo.
+
+    The three marks are drawn rather than typed. A character like "&#8249;" is
+    placed on the text baseline, and the baseline is nowhere near the middle of
+    a letter — so the arrow lands low in its circle by a couple of pixels, which
+    is plainly visible on a round button. These shapes are centred in their own
+    box instead, and they look the same on every machine rather than taking
+    whatever font the browser gives a button. Each one is hidden from screen
+    readers, which read the button's label. */}
 <dialog class="lightbox" aria-label="Photo viewer">
-  <button class="lightbox__close" type="button" aria-label="Close">&times;</button>
+  <button class="lightbox__close" type="button" aria-label="Close">
+    <svg class="lightbox__icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M7 7 17 17M17 7 7 17" />
+    </svg>
+  </button>
   <button class="lightbox__step lightbox__step--prev" type="button" aria-label="Previous photo">
-    &#8249;
+    <svg class="lightbox__icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M15 6 9 12l6 6" />
+    </svg>
   </button>
   <button class="lightbox__step lightbox__step--next" type="button" aria-label="Next photo">
-    &#8250;
+    <svg class="lightbox__icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M9 6l6 6-6 6" />
+    </svg>
   </button>
 
   <figure class="lightbox__figure">
