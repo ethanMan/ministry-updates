@@ -8,6 +8,12 @@
  * saves that album's cover into src/content/songs/, and prints the block of
  * lines to paste into the top of your update.
  *
+ * The cover is filed under the album's name rather than the song's, because the
+ * cover belongs to the album: three songs off the same record share one image
+ * instead of leaving three identical copies of it in the folder. Run the script
+ * for a song whose album is already there and it simply points you at the cover
+ * you already have.
+ *
  * The catalogue is the same one the Music app searches and needs no account or
  * key of any kind. Spotify's does need an account, so the Spotify link is the
  * one line the script leaves for you to paste in — open the song in Spotify,
@@ -15,7 +21,7 @@
  */
 
 import { createInterface } from 'node:readline/promises';
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -56,15 +62,16 @@ results.forEach((song, index) => {
 const choice = await ask(results.length);
 const song = results[choice];
 
-const slug = slugify(song.trackName);
-const file = join(ART_DIR, `${slug}.jpg`);
-
 await mkdir(ART_DIR, { recursive: true });
-await writeFile(file, await downloadArt(song));
+const { name, reused } = await saveArt(song, await downloadArt(song));
 
-console.log(`\nSaved the cover to ${relative(ROOT, file)}\n`);
+console.log(
+  reused
+    ? `\nYou already have that album's cover, so nothing was downloaded: ${relative(ROOT, join(ART_DIR, `${name}.jpg`))}\n`
+    : `\nSaved the cover to ${relative(ROOT, join(ART_DIR, `${name}.jpg`))}\n`,
+);
 console.log('Paste this into the top of your update:\n');
-console.log(block(song, slug));
+console.log(block(song, name));
 
 /** Asks Apple's catalogue for songs matching what was typed. */
 async function search(term) {
@@ -104,6 +111,40 @@ async function downloadArt(song) {
   return Buffer.from(await response.arrayBuffer());
 }
 
+/**
+ * Files the cover under the album's name, unless something is already sitting
+ * there. Two records can share a name — every band has a "Live" album in them
+ * somewhere — so a name already taken is only the same cover if the image
+ * behind it is the same image, byte for byte. When it is, the existing file is
+ * left alone and reused. When it is not, the artist's name is added to tell the
+ * two apart, and a number after that in the vanishingly unlikely event that one
+ * artist has two different covers under the same album name.
+ */
+async function saveArt(song, art) {
+  for (const name of candidateNames(song)) {
+    const existing = await readFile(join(ART_DIR, `${name}.jpg`)).catch(() => null);
+
+    if (!existing) {
+      await writeFile(join(ART_DIR, `${name}.jpg`), art);
+      return { name, reused: false };
+    }
+
+    if (existing.equals(art)) return { name, reused: true };
+  }
+}
+
+/** The filenames to try, in order, for one song's cover. */
+function* candidateNames(song) {
+  // Some corners of the catalogue — the odd single — come back without an
+  // album, and the song's own name is the best there is to fall back on.
+  const album = slugify(song.collectionName ?? song.trackName);
+  const artist = slugify(song.artistName);
+
+  yield album;
+  yield `${album}-${artist}`;
+  for (let n = 2; ; n++) yield `${album}-${artist}-${n}`;
+}
+
 async function ask(count) {
   const rl = createInterface({ input: process.stdin, output: process.stdout });
   try {
@@ -123,12 +164,12 @@ async function ask(count) {
 }
 
 /** The lines to paste into an update's frontmatter. */
-function block(song, slug) {
+function block(song, name) {
   return [
     'songs:',
     `  - title: ${quote(song.trackName)}`,
     `    artist: ${quote(song.artistName)}`,
-    `    art: '../songs/${slug}.jpg'`,
+    `    art: '../songs/${name}.jpg'`,
     // Left commented rather than left empty: an empty link is not a link, and
     // the build would stop on it. Pasted as it stands, this already works.
     `    # spotify: 'paste the Spotify link here, then delete the #'`,

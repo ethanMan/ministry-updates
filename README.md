@@ -47,7 +47,8 @@ Leave `npm run dev` running while you write — the browser updates as you save.
    ```
 
 3. **Write the body** below that block in markdown — blank line between paragraphs, `##`
-   for headings, `**bold**`, `- ` for bullets, `> ` for a quoted verse.
+   for headings, `**bold**`, `- ` for bullets, `> ` for a quoted verse (see
+   [Verses and quotations](#verses-and-quotations) for the reference underneath).
 
 4. **Publish** by committing and pushing:
 
@@ -92,6 +93,34 @@ it, and the quotes are the caption everybody reads.
 If the caption has an apostrophe in it, use double quotes around the caption instead:
 `"Ethan's first week"`.
 
+#### A smaller photo, or one with the words beside it
+
+The full width is the right size for a photograph of people. It is too much for a
+diagram, a screenshot or anything you only need people to glance at. Two smaller
+sizes are available; both are asked for by wrapping the image in a `<div>`, the same
+way a gallery is, and the blank lines around the image matter just as much:
+
+```markdown
+<div class="figure-small">
+
+![What the diagram shows](../photos/provision.jpg 'The caption.')
+
+</div>
+```
+
+`figure-small` centres it at about half the width of the page. `figure-aside` makes
+it smaller again and pushes it to the right-hand edge, with the text of the letter
+running up alongside it — good for something the paragraph next to it is talking
+about. Add `figure-aside--left` to send it to the other edge instead:
+
+```markdown
+<div class="figure-aside figure-aside--left">
+```
+
+A photo set beside the text goes *above* the paragraph it should sit next to, and on
+a phone — where there is no room for words beside it — it quietly goes back to being
+a small centred photo. Captions work the same way in all of these.
+
 #### Several photos side by side
 
 Wrap them in a gallery. The blank lines around the images matter:
@@ -123,6 +152,26 @@ coverCaption: 'The last morning of day camp.'
 
 `coverAlt` is the screen-reader description and `coverCaption` is the line printed
 underneath, the same split as everywhere else.
+
+### Verses and quotations
+
+A `>` at the start of a line pulls the words out of the letter and indents them. To print
+the reference underneath, put it on the next line inside `<cite>`:
+
+```markdown
+> "The horse is made ready for the day of battle, but the victory belongs to the Lord."
+> <cite>— Proverbs 21:31 ESV</cite>
+```
+
+The reference is set small and grey against the right-hand edge. Where the last line of
+the verse leaves room, it tucks up beside it rather than starting a line of its own, so
+most quotes are no taller for having a reference on them; a verse that fills its last
+line pushes the reference underneath instead. Either way it lands at the right edge.
+
+Start it with an em dash, the way an attribution is normally written, and leave the
+brackets off — no `(Proverbs 21:31)` — since the small grey type already marks it as the
+source. Without the `<cite>`, markdown runs the reference straight on to the end of the
+last sentence of the verse.
 
 ### Prayer requests
 

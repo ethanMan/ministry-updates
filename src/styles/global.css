@@ -858,6 +858,101 @@ main {
   transform: none;
 }
 
+/* ---------------------------------------------------------------------------
+   Two smaller sizes for a photo or a diagram in an update.
+
+   The full width above is the right size for a photograph — it is the picture
+   you want people to stop on. It is the wrong size for a diagram, a screenshot
+   or a phone snapshot, which only has to be big enough to read and looks
+   overblown at 880px.
+
+   Markdown has nowhere to hang a class, so these are asked for the same way a
+   gallery or a prayer panel is: wrap the image in a <div>, with blank lines
+   around it. See src/content/updates/_TEMPLATE.md.
+
+       <div class="figure-small">
+
+       ![What it shows](../photos/diagram.jpg 'The caption.')
+
+       </div>
+
+   "small" centres it, about half the width of the page. "aside" is smaller
+   again and pushed to one edge, with the words of the letter running up
+   alongside it — for something being referred to in the paragraph beside it
+   rather than presented on its own.
+   --------------------------------------------------------------------------- */
+
+.prose .figure-small,
+.prose .figure-aside {
+  /* Both of these are narrower than the text, so the shadow and the rounding
+     of a full-width photo would read as heavier on them. */
+  --shadow: var(--shadow-sm);
+}
+
+.prose .figure-small {
+  width: min(28rem, 100%);
+  margin: 2rem auto;
+}
+
+.prose .figure-aside {
+  width: min(17rem, 40%);
+  float: right;
+  /* Air between the photo and the words running past it, and rather more of it
+     on the text side than the page side — the gap that stops the two reading
+     as one block is the inside one. */
+  margin: 0.4rem 0 1.25rem 1.75rem;
+}
+
+.prose .figure-aside--left {
+  float: left;
+  margin-inline: 0 1.75rem;
+}
+
+/* The figure inside either wrapper gives up the centring the full-width rule
+   above gives it: the wrapper is doing the placing now. */
+.prose .figure-small figure,
+.prose .figure-aside figure {
+  width: auto;
+  max-width: none;
+  margin: 0;
+  transform: none;
+}
+
+.prose .figure-small img,
+.prose .figure-aside img {
+  width: 100%;
+  margin: 0;
+}
+
+/* A caption on a narrow photo is a narrow column of text, so it wants to be
+   smaller and sit closer than one under a photo the width of the page. */
+.prose .figure-small figcaption,
+.prose .figure-aside figcaption {
+  font-size: 0.8125rem;
+  margin-top: 0.5rem;
+}
+
+/* On a phone the column is too narrow to give away 40% of it, so the aside
+   stops floating and behaves like the centred one. */
+@media (max-width: 34rem) {
+  .prose .figure-aside {
+    width: min(20rem, 100%);
+    float: none;
+    margin: 2rem auto;
+  }
+}
+
+/* Anything that is meant to start its own stretch of the page drops below a
+   floated photo rather than tucking in beside it. A heading half-way up the
+   side of a photo reads as a caption for it. */
+.prose h2,
+.prose h3,
+.prose .prayer,
+.prose .gallery,
+.prose > figure {
+  clear: both;
+}
+
 .article__cover {
   margin-block: 2rem;
 }
@@ -896,6 +991,10 @@ main {
 
 /* A verse or a quotation, set the way you would indent one in a letter. */
 .prose blockquote {
+  /* flow-root so the quote grows to hold the floated <cite> below, on the rare
+     verse whose last line is too full to leave room for the reference beside
+     it. Without it the reference would hang out past the bottom of the rule. */
+  display: flow-root;
   margin: 2.25rem 0 2.25rem 1.5rem;
   padding: 0.1rem 0 0.1rem 1.5rem;
   background: none;
@@ -908,6 +1007,38 @@ main {
 
 .prose blockquote p:last-child {
   margin-bottom: 0;
+}
+
+/* The reference at the end of a verse — the "2 Corinthians 9:7 ESV" part —
+   written as <cite> on the line after the words inside the quote.
+
+   It floats rather than sitting on a line of its own, and the reason is space.
+   A verse almost never fills its last line exactly, so setting the reference
+   as its own right-aligned block left two holes in the quote: the tail of the
+   last line, and everything to the left of the reference underneath it. The
+   float drops the reference into the first of those holes — it rides on the
+   end of the last line of the verse, hard against the right edge, and the
+   quote is no taller than the verse alone. Only when the last line really is
+   too full to take it does it fall to a line of its own, which is the old
+   behaviour kept as the fallback.
+
+   Small, upright against the italic, and faint is enough to read as the source
+   rather than as the closing words of the verse — no brackets needed. It stays
+   in the letter's own serif: the sans face read as a piece of interface
+   dropped into the middle of the prose. */
+.prose blockquote cite {
+  float: right;
+  /* Air between the last word of the verse and the reference, so the two do
+     not read as one sentence when they share a line. */
+  margin-left: 1.5em;
+  /* A float hangs from the top of the line it lands in, which would leave this
+     sitting high against the larger type of the verse. The nudge drops it onto
+     roughly the same baseline. */
+  margin-top: 0.4em;
+  text-align: right;
+  font-style: normal;
+  font-size: 0.8em;
+  color: var(--text-faint);
 }
 
 .prose ul,

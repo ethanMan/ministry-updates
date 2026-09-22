@@ -19,6 +19,12 @@ Use `##` for section headings. You can **bold** things, use _italics_, and
 - One dash per line
 
 > Use a `>` at the start of a line for a pulled-out quote or verse.
+> <cite>— Where it came from</cite>
+
+Wrapping the reference in `<cite>` sets it small and grey at the right-hand
+edge, tucked beside the last line of the verse where there is room for it.
+Start it with an em dash and leave out the brackets — no `(Proverbs 21:31)` —
+the small grey type is already doing that job.
 
 ## Prayer requests
 
@@ -49,14 +55,15 @@ npm run song "goodness of god bethel"
 ```
 
 Pick your song from the list it prints. It saves the album cover into
-`src/content/songs/` and hands you the lines to paste into the block at the very
+`src/content/songs/` — named after the album, so two songs off the same record
+share the one image — and hands you the lines to paste into the block at the very
 top of this file:
 
 ```
 songs:
   - title: 'Goodness of God'
     artist: 'Bethel Music'
-    art: '../songs/goodness-of-god.jpg'
+    art: '../songs/victory.jpg'
     # spotify: 'paste the Spotify link here, then delete the #'
     appleMusic: 'https://music.apple.com/us/album/goodness-of-god/1748012530?i=1748012533'
 ```
@@ -79,12 +86,12 @@ block underneath the first, indented the same way:
 songs:
   - title: 'Goodness of God'
     artist: 'Bethel Music'
-    art: '../songs/goodness-of-god.jpg'
+    art: '../songs/victory.jpg'
     spotify: 'https://open.spotify.com/track/...'
     appleMusic: 'https://music.apple.com/us/album/...'
   - title: 'Way Maker'
     artist: 'Sinach'
-    art: '../songs/way-maker.jpg'
+    art: '../songs/way-maker-single.jpg'
     spotify: 'https://open.spotify.com/track/...'
     appleMusic: 'https://music.apple.com/us/album/...'
 ```
@@ -119,6 +126,30 @@ the caption everybody reads — a name, a place, what was happening.
 
 If the caption itself needs an apostrophe, use double quotes around it instead:
 `"Ethan's first week"`.
+
+### A smaller photo, or one with the words beside it
+
+A diagram or a screenshot does not need the full width a photograph gets. Wrap it in
+one of these instead — again, keep the blank lines:
+
+<div class="figure-small">
+
+![A short description](../photos/my-photo.jpg 'Centred, about half the width.')
+
+</div>
+
+`figure-aside` is smaller again and sits at the right-hand edge with the text running
+up beside it. Put it *above* the paragraph you want it next to. Swap in
+`class="figure-aside figure-aside--left"` to move it to the other side.
+
+<div class="figure-aside">
+
+![A short description](../photos/my-other-photo.jpg 'Small, with the words beside it.')
+
+</div>
+
+On a phone there is no room for words alongside a photo, so this one turns back into
+a small centred photo on its own.
 
 ### Several photos side by side
 
