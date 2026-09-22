@@ -1,6 +1,6 @@
 ---
 title: 'Off we go!'
-date: 2026-09-13
+date: 2026-09-22
 summary: 'Coming out of MPD training for the 28th class of GCTC, we are all filled with new fire and motivation to hit the ground running, and build our supporter teams.'
 cover: '../photos/2026-09-11-class28.jpg'
 coverAlt: 'The 28th GCTC class'
