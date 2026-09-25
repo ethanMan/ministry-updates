@@ -1,7 +1,7 @@
 ---
 title: 'Off we go!'
 date: 2026-09-22
-summary: 'Coming out of MPD training for the 28th class of GCTC, we are all filled with new fire and motivation to hit the ground running, and build our supporter teams.'
+summary: 'I come out of MPD training filled with new fire and motivation to hit the ground running and build my supporter team.'
 cover: '../photos/2026-09-11-class28.jpg'
 coverAlt: 'The 28th GCTC class'
 coverCaption: 'The 28th GCTC Class'
@@ -17,21 +17,26 @@ songs:
     art: '../songs/did-our-hearts-not-burn.jpg'
     spotify: 'https://open.spotify.com/track/1r7CVzPK2RecTvIbT0XY09?si=3170acdfc54744d2'
     appleMusic: 'https://music.apple.com/us/album/give-me-oil/6796523895?i=6796523900'
-  - title: 'Fear Of God'
-    artist: 'UPPERROOM, Joel Figueroa & Sarahbeth Smith'
-    art: '../songs/love-note.jpg'
-    spotify: 'https://open.spotify.com/track/7zQROz4RSbAVlllEEx4NIo?si=5c6499b77c5640c2'
-    appleMusic: 'https://music.apple.com/us/album/fear-of-god/1587719946?i=1587719974'
-draft: true
+  # - title: 'Fear Of God'
+  #   artist: 'UPPERROOM, Joel Figueroa & Sarahbeth Smith'
+  #   art: '../songs/love-note.jpg'
+  #   spotify: 'https://open.spotify.com/track/7zQROz4RSbAVlllEEx4NIo?si=5c6499b77c5640c2'
+  #   appleMusic: 'https://music.apple.com/us/album/fear-of-god/1587719946?i=1587719974'
+  - title: 'Blood Of Christ (feat. John Wilds)'
+    artist: 'Jesus Image'
+    art: '../songs/blood-of-christ-live-feat-john-wilds-ep.jpg'
+    spotify: 'https://open.spotify.com/track/6HavpEsmpotEj5E5QXAcn6?si=39b39b149137469b'
+    appleMusic: 'https://music.apple.com/us/album/blood-of-christ-feat-john-wilds-live/1805034071?i=1805034073'
+draft: false
 ---
 
 Dear friends and partners,
 
 I still can’t believe it’s officially begun. As I begin my journey toward GCTC (staff training) and full-time campus ministry, I’m feeling some anxiety and tiredness, but most of all, excitement.
 
-Earlier this month, I spent a week in Southern California for MPD (Ministry Partner Development) training. We learned about God’s provision, how to build a team of partners, and had the opportunity to spend meaningful time together as the 28th GCTC class. This week prepared us for the next four months, as we reach out, meet with, and invite people to partner with us as we prepare for training.
+Earlier this month, I spent a week in Southern California for MPD (Ministry Partner Development) training. We learned about God’s provision and how to build a team of partners, and also had the opportunity to spend meaningful time together as the 28th GCTC class. This week prepared us for the next four months, as we reach out, meet with, and invite people to partner with us as we prepare for training.
 
-For my first update, I thought I’d recap some of the lessons and convictions God gave me throughout that week. There are many things I’d love to share, and I also want to document them as a reminder to myself for the months ahead.
+For my first update, I thought I’d write some of the lessons and convictions God gave me throughout that week. There are many things I’d love to share, and I also want to document them as a reminder to myself for the months ahead!
 
 ## The posture of partnership
 
@@ -54,18 +59,18 @@ But partnership isn’t only about the posture of receiving. We also learned abo
 > "Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver."
 > <cite>— 2 Corinthians 9:7 ESV</cite>
 
-Giving should never be an obligation or something done reluctantly, but something that flows from a cheerful heart. While giving can be challenging, it should also be a blessing. This whole process becomes much more meaningful when it is done in the Lord. He delights in cheerful giving, and I pray that the financial partnerships I enter into would be done out of the same cheerfulness.
+Giving should never be an obligation or something done reluctantly, but something that flows from a cheerful heart. While giving can be challenging, it should also be a blessing to the giver. This whole process becomes much more meaningful when it is done in the Lord. He delights in cheerful giving, and I pray that the financial partnerships I enter into would be done out of the same cheerfulness.
 
 ## Victory comes from the Lord
 
-As this season begins, I’ve found it tempting to be swayed by the highs and lows of the process, overvaluing things like how my slides look, my relationship with the person I’m sharing with, or how confidently I communicate. But one passage from Proverbs has helped me continually readjust my understanding of the process God has put before me:
+As this season begins, I’ve found it tempting to be swayed by the highs and lows of the process, overvaluing things like how my slides look, my relationships with the people I’m sharing with, or how confidently I communicate. But one passage from Proverbs has helped me continually readjust my understanding of the process God has put before me:
 
 > “The horse is made ready for the day of battle, but the victory belongs to the Lord.”
 > <cite>— Proverbs 21:31 ESV</cite>
 
 There is a lot that I can do. I can prepare my slides, reach out to people, have meaningful conversations, and faithfully maintain relationships. But ultimately, the victory belongs to the Lord. The highs and lows of this process are not entirely in my control, and I don’t want my confidence or discouragement to be determined by them.
 
-Even more, I step into this season with total confidence, knowing God brings the victory. He walks alongside me, and I expect Him to challenge, guide, and fully provide for every step. My role is to faithfully prepare the horse and do the work, trusting Him completely with the results.
+The great news is that I can step into this season with total confidence, knowing God has already assured victory. He walks alongside me, and I expect Him to challenge, guide, and fully provide for every step. My role is to faithfully prepare the horse and do the work, trusting Him completely with the results.
 
 ## My vision
 
@@ -73,7 +78,7 @@ Maybe the most meaningful thing this week did for me was reignite my excitement 
 
 Being so far removed from the school year and from my time in missions, it had become harder and harder to remember my “why” and the reason I was so excited to enter into staff training and college ministry.
 
-But through this week, I was reminded of my dream to win, build, and send college students, the future leaders of the world. College ministry is so special because an investment in even one campus can reach so many corners of the globe as students are naturally sent into different careers, communities, and countries. I can only imagine the impact if the future leaders of the world truly knew Christ and went out to fulfill the Great Commission.
+But through this week, I was reminded of my dream to win, build, and send college students, the future leaders of the world. College ministry is so special because an investment in even one campus can reach so many corners of the globe as students are naturally sent into different careers, communities, and countries. I can only imagine what could happen if the future leaders of the world had strong, personal relationships with God.
 
 At the same time, reading *The God Ask* has reminded me just how important my personal relationship with God is throughout this entire process:
 
@@ -86,7 +91,7 @@ Even being home for a short period of time after training, I’ve already seen h
 
 Over the next four months I'll be focusing on raising support, reaching out to old friends and new faces alike, and creating a team of prayerful and financial supporters that share my vision for the college students I'll be ministering to.
 
-I’m excited to use this site to keep you all updated throughout that process, and share how I see God actively moving and working! Thank you for taking the time to visit and read!
+I’m excited to use this site to keep you all updated throughout that process, and share how I see God actively moving and working! Thank you for taking the time to visit and read! My goal is to publish a new update once every month, at least throughout the duration of my training!
 
 Thank you as well for praying, for giving, and for joining me in pursuing my vision for this “powerful percent” of college students. I step in confidence knowing that people like you are covering me in prayer.
 
