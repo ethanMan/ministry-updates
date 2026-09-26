@@ -1,6 +1,5 @@
 ---
 import { site } from '~/config';
-import { withBase } from '~/lib/url';
 
 const { email, instagram, facebook } = site.contact;
 const year = new Date().getFullYear();
@@ -14,7 +13,16 @@ const year = new Date().getFullYear();
       {email && <a href={`mailto:${email}`}>Email</a>}
       {instagram && <a href={instagram} rel="me noopener">Instagram</a>}
       {facebook && <a href={facebook} rel="me noopener">Facebook</a>}
-      <a href={withBase('/rss.xml')}>RSS</a>
+      {/*
+        The RSS link is hidden for now — clicking it just shows raw XML, which
+        looks broken to anyone who doesn't already use a feed reader. The feed
+        itself is still built and still announced in the <head> of every page
+        (see BaseLayout.astro), so feed readers can find it on their own.
+        Uncomment this when there's someone who'd actually use it — and bring
+        back `import { withBase } from '~/lib/url';` above when you do.
+
+        <a href={withBase('/rss.xml')}>RSS</a>
+      */}
     </div>
   </div>
 </footer>
