@@ -83,7 +83,7 @@ export const site = {
    * top right of the header and again at the bottom of the home page.
    * Leave empty to hide both.
    */
-  givingUrl: 'https://app.aplos.com/aws/give/SoonMovementGlobal/EthanMan',
+  givingUrl: 'https://man-ethan.raiselysite.com/',
   givingLabel: 'Partner with us',
   /** Shorter wording for the header button, where space is tight. */
   givingLabelShort: 'Give',
