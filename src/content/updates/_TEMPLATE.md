@@ -140,7 +140,8 @@ one of these instead — again, keep the blank lines:
 
 `figure-aside` is smaller again and sits at the right-hand edge with the text running
 up beside it. Put it *above* the paragraph you want it next to. Swap in
-`class="figure-aside figure-aside--left"` to move it to the other side.
+`class="figure-aside figure-aside--left"` to move it to the other side. And
+`class="figure-text-width"` keeps a photo exactly as wide as the text.
 
 <div class="figure-aside">
 
