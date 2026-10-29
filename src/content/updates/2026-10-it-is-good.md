@@ -12,7 +12,7 @@ songs:
     art: '../songs/on-time-god-single.jpg'
     spotify: 'https://open.spotify.com/track/19uOYXeo7yc1HVMwDK3FWv?si=d5ec7dd956e443dd'
     appleMusic: 'https://music.apple.com/us/album/on-time-god/1710291304?i=1710291306'
-draft: true
+draft: false
 ---
 
 Hello!
