@@ -121,6 +121,13 @@ A photo set beside the text goes *above* the paragraph it should sit next to, an
 a phone — where there is no room for words beside it — it quietly goes back to being
 a small centred photo. Captions work the same way in all of these.
 
+There is one more in between: `figure-text-width` keeps the photo exactly as wide as
+the text, starting and ending where the words do, rather than spreading past them:
+
+```markdown
+<div class="figure-text-width">
+```
+
 #### Several photos side by side
 
 Wrap them in a gallery. The blank lines around the images matter:

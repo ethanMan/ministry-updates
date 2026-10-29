@@ -858,6 +858,21 @@ main {
   transform: none;
 }
 
+/* The same thing for a photo in an update. Markdown cannot put a class on the
+   figure itself, so it is asked for the way the smaller sizes below are: wrap
+   the image in <div class="figure-text-width">, with blank lines around it.
+   The figure inside then gives up its wider width and lines up with the words.
+
+   No `sizes` to adjust here — Astro works that out for markdown photos, and a
+   photo drawn narrower than it was sized for only ever downloads too much,
+   never too little. */
+.prose .figure-text-width figure {
+  width: auto;
+  max-width: none;
+  margin: 1.5rem 0;
+  transform: none;
+}
+
 /* ---------------------------------------------------------------------------
    Two smaller sizes for a photo or a diagram in an update.
 
@@ -949,6 +964,7 @@ main {
 .prose h3,
 .prose .prayer,
 .prose .gallery,
+.prose .figure-text-width,
 .prose > figure {
   clear: both;
 }
